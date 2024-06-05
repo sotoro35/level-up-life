@@ -1,13 +1,17 @@
 import { styled, createGlobalStyle  } from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 import ai1 from '../img/ai1.gif'
 import PostList from './PostList'
 
 
 const Communication= ()=>{
+    
+    const navigate = useNavigate()
 
     const goEdit= ()=>{
-
+      navigate('/edit')
     }
+    
     return (
   
       <Container>
