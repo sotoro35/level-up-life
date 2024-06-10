@@ -52,10 +52,14 @@ const Card= styled.div`
             h3{
                     color: rgb(142, 103, 0);
                     margin: 0 0 .3rem 0;
+                    font-weight: 100;
+                    font-size: 16px;
                 }
                 
                 p{
-                    color: red;
+                    color: burlywood;
+                    font-size: 14px;
+                    
                 }
 
             img{
@@ -72,7 +76,7 @@ const Card= styled.div`
         box-sizing: content-box;
         background-color: rgb(226, 221, 202);
         margin: .5rem;
-        border-radius: 10px;
+        border-radius: 7px;
 
         p{
             width: 100%;
@@ -82,6 +86,7 @@ const Card= styled.div`
             border-radius: 5px;
             box-sizing: border-box;
             text-align: left;
+            font-size: 14px;
         }
 
          h5{
@@ -92,6 +97,7 @@ const Card= styled.div`
         padding-bottom: .5rem;
         border-radius: 5px;
         color: rgb(142, 103, 0);
+        font-size: 12px;
     }
     }
 
