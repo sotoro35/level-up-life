@@ -1,16 +1,24 @@
 import { styled } from 'styled-components'
 import profile from '../img/profile.png'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-const Post= ()=>{
+const Post= (props)=>{
 
     const [nickname, setNickname] = useState('드래곤입니다')
     const [level, setLevel] = useState('57')
     const [content, setContent] = useState('도감완성')
-    const [comment, setComment] = useState('0')
+    const [comment, setComment] = useState('2')
+
+    const navigate= useNavigate()
+
+    const goDetail= (no)=>{
+        // navigate('/detail/'+no)
+        navigate('/detail')
+    }
 
     return (
-        <Card>
+        <Card {...props} onClick={goDetail}>
             <div className='pofile'>
                 <div>
                     <img src={profile}></img>
@@ -34,9 +42,10 @@ export default Post
 
 const Card= styled.div`
     margin: 1rem auto;
-    border: 3px solid rgb(142, 103, 0);
+    /* background-color: ${props => props.current ? 'darkgray' : 'dimgray'}; */
+    border: ${props => props.aa == 'aa' ? '0' : props.bb == 'bb' ? '3px solid rgb(142, 103, 0)' : '1px solid black'};
     border-radius: 10px;
-    background-color: white;
+    background-color: rgb(245, 245, 245);
     width: 90%;
     box-sizing: border-box;
 
@@ -63,7 +72,7 @@ const Card= styled.div`
                 }
 
             img{
-            border: 3px solid rgb(142, 103, 0);
+            border: 2px solid rgb(142, 103, 0);
             border-radius: 10px;
             width: 4rem;
         }

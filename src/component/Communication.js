@@ -53,7 +53,7 @@ const Container= styled.div`
 
   .header{
     width: 90%;
-    height: 12%;
+    height: 14%;
     margin: 0 auto;
     background-color: rgb(231,217,169);
     border: 3px solid rgb(142,103,0);
@@ -62,6 +62,7 @@ const Container= styled.div`
     align-items: center;
     justify-content: center;
     box-shadow: 1px 2px 5px gray;
+    overflow: hidden;
 
     div{
       padding: 0 1rem;
@@ -69,6 +70,7 @@ const Container= styled.div`
 
       p{
         color: rgb(244,98,76);
+        font-size: 14px;
       }
       
       img{
