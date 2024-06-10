@@ -2,11 +2,14 @@ import { styled, createGlobalStyle  } from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import ai1 from '../img/ai1.gif'
 import PostList from './PostList'
-
+import { useEffect, useState } from 'react'
+import { AnimatePresence,motion } from 'framer-motion'
+import Edit from './Edit'
 
 const Communication= ()=>{
     
     const navigate = useNavigate()
+    const [visible, setVisible]= useState(false)
 
     const goEdit= ()=>{
       navigate('/edit')
@@ -29,13 +32,43 @@ const Communication= ()=>{
           </div>
         </div>
   
-        <div className='floating' onClick={goEdit}>
+        <div className='floating' onClick={()=>setVisible(true)}>
           <div>
             <p>+</p>
           </div>
         </div>
 
         <PostList></PostList>
+
+        <AnimatePresence>
+          {
+            visible && (
+              <div style={modalStyle}>
+
+                {/* 배경 */}
+                <motion.div
+                style={modalBack}
+                initial={{opacity:0}} 
+                animate={{opacity:0.6}}
+                onClick={()=>setVisible(false)}
+                exit={{scale:0, y:'100vh'}}
+                />
+
+                {/* 다이얼로그 */}
+                <motion.div
+                style={boxStyle}
+                inherit={{scale:0, y:'-100vh'}}
+                animate={{scale:1, y:0}}
+                exit={{scale:0, y:'100vh'}}
+                >
+                  <Edit setVisible={setVisible} />
+                </motion.div>
+              </div>
+            )
+          }
+        </AnimatePresence>
+
+        
   
       </Container>
     )  
@@ -43,6 +76,27 @@ const Communication= ()=>{
 
 export default Communication
 
+const modalBack= {
+  backgroundColor: 'rgba(0, 0, 0, 0.6)',
+  width:'100%',
+  height:'100%', 
+  position:'absolute',
+  zIndex: 1}
+
+const boxStyle= {
+  padding:10, 
+  position: 'relative',
+  zIndex: 2}
+
+const modalStyle= {
+  position:'fixed', 
+  top:0, 
+  left:0, 
+  right:0, 
+  bottom:0, 
+  display:'flex', 
+  justifyContent:'center', 
+  alignItems:'center'}
 
 const Container= styled.div`
   width: 100%;
@@ -91,7 +145,8 @@ const Container= styled.div`
     box-shadow: 1px 2px 5px gray;
     position: fixed;
     bottom: 20px;  
-    right: 20px;   
+    right: 20px;  
+    cursor: pointer;
 
 
     p{

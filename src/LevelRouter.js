@@ -10,7 +10,7 @@ const LevelRouter= ()=>{
 
                 <Route path='/' element={<App/>}></Route>
                 <Route path='/edit' element={<Edit/>}></Route>
-                <Route path='/detail' element={<Detail/>}/>
+                <Route path='/detail/:no' element={<Detail/>}/>
 
                 
             </Routes>

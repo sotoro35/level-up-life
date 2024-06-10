@@ -1,7 +1,40 @@
 import { styled } from 'styled-components'
 import ai2 from '../img/ai2.gif'
+import { useEffect, useRef, useState } from 'react'
 
-const Edit= ()=>{
+const Edit= (props)=>{
+
+    const fileInputRef= useRef(null)
+    const [imgSrc, setImgSrc] = useState(null)
+    const [file, setFile] = useState(null)
+
+    const addEdit= (event)=>{
+        event.preventDefault()
+        props.setVisible(false)
+
+    }
+
+    const aaa= ()=>{
+        fileInputRef.current.click()
+    }
+
+    const bbb= (event)=>{
+        const selectedFile = event.target.files[0]
+        console.log(file)
+        setFile(selectedFile)
+
+    }
+
+        useEffect(()=>{
+            if(file){
+                const reader = new FileReader()
+                reader.onloadend= ()=>{
+                    setImgSrc(reader.result)
+                }
+                reader.readAsDataURL(file)
+            }
+        },[file])
+
     return (
         <Container>
             <img src={ai2}></img>
@@ -9,12 +42,21 @@ const Edit= ()=>{
             <h6>원활한 커뮤니티 활성화를 위해 이미지 및 텍스트를 검증하고 있습니다.<br/>비방, 음락, 악성 등 커뮤니티에 부합하지 않는 내용은 등록되지 않습니다.</h6>
 
             <form>
-                <input placeholder='내용을 입력해주세요'></input>
-                <div className='addImg'>
+                <textarea placeholder='내용을 입력해주세요'></textarea>
+                <div className='addImg' onClick={aaa}>
+                    {imgSrc ? (
+                        <img
+                        src={imgSrc}
+                        alt='SelectedImg'
+                        style={{width:'100%',height:'100%',objectFit:'cover'}}
+                    />
+                ): (
                     <h4>+</h4>
+                )}
+                    <input type='file' ref={fileInputRef} onClick={bbb} style={{display:'none'}} accept='.jpeg,.png'></input>
                 </div>
                 <p>이미지 추가</p>
-                <button>등록</button>
+                <button type='submit' onClick={addEdit}>등록</button>
             </form>
         </Container>
     )
@@ -41,6 +83,7 @@ const Container= styled.div`
     h6{
         color: rgb(142,103,0);
         margin: .2rem 0 1rem 0;
+        font-size: 10px;
     }
 
     form{
@@ -48,7 +91,7 @@ const Container= styled.div`
         flex-direction: column;
         width: 100%;
 
-        input{
+        textarea{
             min-height: 100px;
             border: 0;
             border-radius: 6px;
@@ -56,6 +99,7 @@ const Container= styled.div`
             color: rgb(228,168,8);
             padding: 1rem;
             box-shadow: 0px 1px 3px gray;
+            resize: none;
 
             &::placeholder{
                 color: rgb(228,168,8);
@@ -75,11 +119,13 @@ const Container= styled.div`
             color: rgb(201,159,11);
             box-shadow: 1px 2px 5px gray;
             font-size: 2rem;
+
+            cursor: pointer;
         }
 
 
         p{
-            margin: 0 auto;
+            margin: 0.2rem auto;
             font-size: 12px;
             color: rgb(142,103,0);
         }
@@ -94,8 +140,7 @@ const Container= styled.div`
             font-weight: 600;
             color: rgb(142,103,0);
             border-radius: 6px;
-
-
+            cursor: pointer;
         }
     }
     

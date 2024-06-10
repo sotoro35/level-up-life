@@ -3,13 +3,27 @@ import profile from '../img/profile.png'
 import Post from "./Post";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 
 const Detail= ()=>{
 
     const navigate= useNavigate()
+    const inputRef= useRef()
 
     const goList= ()=>{
         navigate('/')
+    }
+
+    const addComment= (event)=>{
+        event.preventDefault()
+        const comment= inputRef.current.value
+        // alert(comment)
+
+        //comment에 인풋 값 들어있음
+        // 서버작업 해주세요
+
+        inputRef.current.value=''
+
     }
 
     return (
@@ -17,39 +31,13 @@ const Detail= ()=>{
             <label onClick={goList}><MdOutlineArrowBackIosNew/> 뒤로</label>
 
             <div className="contentD">
-                <Post aa="aa"/>
+                <Post postD="postD"/>
 
                 <div className="commentB">
+                
+                    <PostComment/>
+                    <PostComment/>
 
-                    <div className="commentD">
-
-                    <div className='PofileD'>
-                        <div>
-                            <img src={profile}></img>
-                        </div>
-
-                        <div className='nameD'>
-                            <h5>닉네임</h5>
-                            <h6>Lv.레벨</h6>
-                        </div>
-                    </div>
-                    <p>저도 오늘 시작했습니다</p> 
-                </div>
-
-                <div className="commentD">
-
-                    <div className='PofileD'>
-                        <div>
-                            <img src={profile}></img>
-                        </div>
-
-                        <div className='nameD'>
-                            <h5>닉네임</h5>
-                            <h6>Lv.레벨</h6>
-                        </div>
-                    </div>
-                    <p>저도 오늘 시작했습니다</p> 
-                </div>
             </div>
                 
             </div>
@@ -58,14 +46,38 @@ const Detail= ()=>{
                 <h4>AI 검증 봇 사용중</h4>
                 <h5>원활한 커뮤니티 활성화를 위해 이미지 및 텍스트를 검증하고 있습니다.<br/> 비방, 음란, 악성 등 커뮤니티에 부합하지 않는 내용은 등록되지 않습니다.</h5>
                 
-                <form>
-                    <input placeholder="댓글을 입력하세요"></input>
-                    <button>등록</button>
+                <form onSubmit={addComment}>
+                    <input ref={inputRef} placeholder="댓글을 입력하세요"></input>
+                    <button type="submit">등록</button>
                 </form>
 
             </div>
 
         </Container>
+    )
+}
+
+const PostComment= ()=>{
+
+    const [profileImg, setProfile] = useState(profile)
+    const [nickName, setnickName] = useState('레벨업라이프')
+    const [level, setLevel] = useState('0')
+
+    return (
+        <div className="commentD">
+            <div className='PofileD'>
+                        <div>
+                            <img src={profileImg}></img>
+                        </div>
+
+                        <div className='nameD'>
+                            <h5>{nickName}</h5>
+                            <h6>Lv.{level}</h6>
+                        </div>
+                    </div>
+                    <p>저도 오늘 시작했습니다</p> 
+
+        </div>
     )
 }
 
@@ -79,7 +91,11 @@ const Container= styled.div`
     padding: 1rem 0;
 
     label{
+        display: flex;
+        align-items: center;
         margin-left: 1rem;
+        color: rgb(142, 103, 0);
+        font-size: 20px;
     }
 
     .content{

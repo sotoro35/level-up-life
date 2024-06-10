@@ -3,7 +3,8 @@ import Post from "./Post"
 const PostList= ()=>{
     return (
         <div>
-            <Post bb="bb"/>
+            <Post/>
+            <Post/>
         </div>
 
     )
