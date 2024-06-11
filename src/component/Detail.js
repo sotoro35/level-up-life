@@ -4,11 +4,14 @@ import Post from "./Post";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import { AnimatePresence,motion } from 'framer-motion'
+import Write from "./Write";
 
 const Detail= ()=>{
 
     const navigate= useNavigate()
     const inputRef= useRef()
+    const [visible, setVisible]= useState(false)
 
     // user = 현재 로그인 된 유저 아이디
     // postUser = 현재 선택된 게시물 작성자 아이디
@@ -33,6 +36,7 @@ const Detail= ()=>{
     }
 
     const goEdit= ()=>{
+        setVisible(true)
         //게시글 수정 함수
     }
 
@@ -80,7 +84,36 @@ const Detail= ()=>{
                     <input ref={inputRef} placeholder="댓글을 입력하세요"></input>
                     <button type="submit">등록</button>
                 </form>
+            </div>
 
+            <div>
+                <AnimatePresence>
+                {
+                    visible && (
+                    <div style={modalStyle}>
+
+                        {/* 배경 */}
+                        <motion.div
+                        style={modalBack}
+                        initial={{opacity:0}} 
+                        animate={{opacity:0.6}}
+                        onClick={()=>setVisible(false)}
+                        exit={{scale:0, y:'100vh'}}
+                        />
+
+                        {/* 다이얼로그 */}
+                        <motion.div
+                        style={boxStyle}
+                        inherit={{scale:0, y:'-100vh'}}
+                        animate={{scale:1, y:0}}
+                        exit={{scale:0, y:'100vh'}}
+                        >
+                        <Write setVisible={setVisible} edit='edit'/>
+                        </motion.div>
+                    </div>
+                    )
+                }
+            </AnimatePresence>
             </div>
 
         </Container>
@@ -113,6 +146,29 @@ const PostComment= ()=>{
 
 export default Detail
 
+
+const modalBack= {
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    width:'100%',
+    height:'100%', 
+    position:'absolute',
+    zIndex: 1}
+  
+  const boxStyle= {
+    padding:10, 
+    position: 'relative',
+    zIndex: 2}
+  
+  const modalStyle= {
+    position:'fixed', 
+    top:0, 
+    left:0, 
+    right:0, 
+    bottom:0, 
+    display:'flex', 
+    justifyContent:'center', 
+    alignItems:'center'}
+
 const Container= styled.div`
     margin: 0;
     width: 100%;
@@ -140,6 +196,7 @@ const Container= styled.div`
             font-size: 14px;
             /* border: 1px solid red; */
             padding: .5rem .2rem;
+            cursor: pointer;
         }
 
         span{

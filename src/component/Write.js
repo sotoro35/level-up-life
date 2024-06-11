@@ -4,9 +4,14 @@ import { useEffect, useRef, useState } from 'react'
 
 const Write= (props)=>{
 
+    const img = ai2 //현재 게시물 이미지 
+
     const fileInputRef= useRef(null)
-    const [imgSrc, setImgSrc] = useState(null)
+    const [imgSrc, setImgSrc] = useState(()=>{
+        return props.edit == 'edit' ? img : null
+    })
     const [file, setFile] = useState(null)
+    const [content,setContent] = useState('현재페이지내용')
 
     const addWrite= (event)=>{
         event.preventDefault()
@@ -44,7 +49,7 @@ const Write= (props)=>{
             <h6>원활한 커뮤니티 활성화를 위해 이미지 및 텍스트를 검증하고 있습니다.<br/>비방, 음락, 악성 등 커뮤니티에 부합하지 않는 내용은 등록되지 않습니다.</h6>
 
             <form>
-                <textarea placeholder='내용을 입력해주세요'></textarea>
+                <textarea placeholder='내용을 입력해주세요'>{props.edit == 'edit' ? content : ''}</textarea>
                 <div className='addImg' onClick={fileClick}>
                     {imgSrc ? (
                         <img
@@ -58,7 +63,7 @@ const Write= (props)=>{
                     <input type='file' ref={fileInputRef} onChange={selectFile} style={{display:'none'}} accept='.jpeg,.png'></input>
                 </div>
                 <p>이미지 추가</p>
-                <button type='submit' onClick={addWrite}>등록</button>
+                <button type='submit' onClick={addWrite}> { props.edit == 'edit' ? '수정' : '등록' } </button>
             </form>
         </Container>
     )
@@ -80,12 +85,14 @@ const Container= styled.div`
 
     h5{
         color: red;
+        text-align: center;
     }
 
     h6{
         color: rgb(142,103,0);
         margin: .2rem 0 1rem 0;
         font-size: 10px;
+        text-align: center;
     }
 
     form{
@@ -102,9 +109,12 @@ const Container= styled.div`
             padding: 1rem;
             box-shadow: 0px 1px 3px gray;
             resize: none;
+            font-weight: 500;
+            font-size: 14px;
+            color: rgb(142,103,0);
 
             &::placeholder{
-                color: rgb(228,168,8);
+                /* color: rgb(228,168,8); */
                 font-weight: 700;
             }
         }

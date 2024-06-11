@@ -10,6 +10,7 @@ const Post= (props)=>{
     const [content, setContent] = useState('도감완성')
     const [comment, setComment] = useState('2')
     const [profileImg, setprofile] = useState(profile)
+    const [imgSrc,setImgSrc] = useState(profile) // 서버에 등록된 이미지 url
 
     const navigate= useNavigate()
 
@@ -33,6 +34,7 @@ const Post= (props)=>{
 
             <div className='content'>
                     <p>{content}</p>
+                    {imgSrc ? <img src={ imgSrc } alt='postImg'></img> :<></> }
                     <h5>댓글 : {comment}</h5>
             </div>
         </Card>
@@ -87,6 +89,16 @@ const Card= styled.div`
         background-color: rgb(226, 221, 202);
         margin: .5rem;
         border-radius: 7px;
+        text-align: left;
+
+        img{
+            width: 80px;
+            height: 80px;
+            border: 1px solid gray ;
+            border-radius: 7px;
+            box-shadow: 1px 1px 3px gray;
+            margin-left: .5rem;
+        }
 
         p{
             width: 100%;
