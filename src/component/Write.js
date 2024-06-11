@@ -2,67 +2,69 @@ import { styled } from 'styled-components'
 import ai2 from '../img/ai2.gif'
 import { useEffect, useRef, useState } from 'react'
 
-const Edit= (props)=>{
+const Write= (props)=>{
 
     const fileInputRef= useRef(null)
     const [imgSrc, setImgSrc] = useState(null)
     const [file, setFile] = useState(null)
 
-    const addEdit= (event)=>{
+    const addWrite= (event)=>{
         event.preventDefault()
         props.setVisible(false)
 
     }
 
-    const aaa= ()=>{
+    const fileClick= ()=>{
         fileInputRef.current.click()
     }
 
-    const bbb= (event)=>{
+    const selectFile= (event)=>{
         const selectedFile = event.target.files[0]
-        console.log(file)
         setFile(selectedFile)
 
     }
 
-        useEffect(()=>{
-            if(file){
-                const reader = new FileReader()
-                reader.onloadend= ()=>{
-                    setImgSrc(reader.result)
-                }
-                reader.readAsDataURL(file)
-            }
-        },[file])
+    useEffect(()=>{
+        if(file){
+            //alert('이펙트실행')
+            const reader = new FileReader()
+            reader.onloadend= ()=>{
+            //alert('리더실행')
+            console.log("File reader result:", reader.result); // FileReader 결과 확인
+             setImgSrc(reader.result)
+             }
+        reader.readAsDataURL(file)
+        }
+    },[file])
 
     return (
         <Container>
-            <img src={ai2}></img>
+            <img src={ai2} alt='aiImg'></img>
             <h5>AI 검증 봇 사용중</h5>
             <h6>원활한 커뮤니티 활성화를 위해 이미지 및 텍스트를 검증하고 있습니다.<br/>비방, 음락, 악성 등 커뮤니티에 부합하지 않는 내용은 등록되지 않습니다.</h6>
 
             <form>
                 <textarea placeholder='내용을 입력해주세요'></textarea>
-                <div className='addImg' onClick={aaa}>
+                <div className='addImg' onClick={fileClick}>
                     {imgSrc ? (
                         <img
                         src={imgSrc}
                         alt='SelectedImg'
-                        style={{width:'100%',height:'100%',objectFit:'cover'}}
+                        style={{width:'100%',height:'100%',objectFit:'cover',borderRadius:5}}
                     />
                 ): (
                     <h4>+</h4>
                 )}
-                    <input type='file' ref={fileInputRef} onClick={bbb} style={{display:'none'}} accept='.jpeg,.png'></input>
+                    <input type='file' ref={fileInputRef} onChange={selectFile} style={{display:'none'}} accept='.jpeg,.png'></input>
                 </div>
                 <p>이미지 추가</p>
-                <button type='submit' onClick={addEdit}>등록</button>
+                <button type='submit' onClick={addWrite}>등록</button>
             </form>
         </Container>
     )
 }
 
-export default Edit
+export default Write
 
 const Container= styled.div`
     border: 2px solid rgb(142,103,0);
@@ -119,7 +121,6 @@ const Container= styled.div`
             color: rgb(201,159,11);
             box-shadow: 1px 2px 5px gray;
             font-size: 2rem;
-
             cursor: pointer;
         }
 

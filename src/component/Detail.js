@@ -10,6 +10,11 @@ const Detail= ()=>{
     const navigate= useNavigate()
     const inputRef= useRef()
 
+    // user = 현재 로그인 된 유저 아이디
+    // postUser = 현재 선택된 게시물 작성자 아이디
+    const user= 'aa'
+    const postUser= 'aa'
+
     const goList= ()=>{
         navigate('/')
     }
@@ -19,6 +24,7 @@ const Detail= ()=>{
         const comment= inputRef.current.value
         // alert(comment)
 
+        // 댓글 등록 함수
         //comment에 인풋 값 들어있음
         // 서버작업 해주세요
 
@@ -26,11 +32,35 @@ const Detail= ()=>{
 
     }
 
+    const goEdit= ()=>{
+        //게시글 수정 함수
+    }
+
+    const goDelete= ()=>{
+        //게시글 삭제 함수
+        
+        navigate('/')
+    }
+
+
+
     return (
         <Container>
             <label onClick={goList}><MdOutlineArrowBackIosNew/> 뒤로</label>
 
+            
+
             <div className="contentD">
+
+                { user != postUser ? <></> :
+                <div className="edit">
+                <p onClick={goEdit}>수정</p>
+                <span>&ensp;/&ensp;</span>
+                <p onClick={goDelete}>삭제</p>
+                </div> 
+                 }
+                
+
                 <Post postD="postD"/>
 
                 <div className="commentB">
@@ -67,7 +97,7 @@ const PostComment= ()=>{
         <div className="commentD">
             <div className='PofileD'>
                         <div>
-                            <img src={profileImg}></img>
+                            <img src={profileImg} alt="profile"></img>
                         </div>
 
                         <div className='nameD'>
@@ -96,6 +126,28 @@ const Container= styled.div`
         margin-left: 1rem;
         color: rgb(142, 103, 0);
         font-size: 20px;
+    }
+
+    .edit{
+        position: absolute;
+        right: 25px;
+        top: 25px;
+
+        p{
+            display: inline-block;
+            color: rgb(136,82,50);
+            font-weight: 500;
+            font-size: 14px;
+            /* border: 1px solid red; */
+            padding: .5rem .2rem;
+        }
+
+        span{
+            color: rgb(136,82,50);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
     }
 
     .content{

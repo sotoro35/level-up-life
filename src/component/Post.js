@@ -22,7 +22,7 @@ const Post= (props)=>{
         <Card {...props} onClick={goDetail}>
             <div className='pofile'>
                 <div>
-                    <img src={profileImg}></img>
+                    <img src={profileImg} alt='profile'></img>
                 </div>
 
                 <div className='name'>

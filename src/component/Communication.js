@@ -4,15 +4,15 @@ import ai1 from '../img/ai1.gif'
 import PostList from './PostList'
 import { useEffect, useState } from 'react'
 import { AnimatePresence,motion } from 'framer-motion'
-import Edit from './Edit'
+import Write from './Write'
 
 const Communication= ()=>{
     
     const navigate = useNavigate()
     const [visible, setVisible]= useState(false)
 
-    const goEdit= ()=>{
-      navigate('/edit')
+    const goWrite= ()=>{
+      navigate('/write')
     }
     
     return (
@@ -28,7 +28,7 @@ const Communication= ()=>{
           </div>
   
           <div>
-            <img src={ai1}></img>
+            <img src={ai1} alt='aiImg'></img>
           </div>
         </div>
   
@@ -61,7 +61,7 @@ const Communication= ()=>{
                 animate={{scale:1, y:0}}
                 exit={{scale:0, y:'100vh'}}
                 >
-                  <Edit setVisible={setVisible} />
+                  <Write setVisible={setVisible} />
                 </motion.div>
               </div>
             )

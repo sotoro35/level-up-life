@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import App from './App'
-import Edit from './component/Edit'
 import Detail from './component/Detail'
+import Write from './component/Write'
 
 const LevelRouter= ()=>{
     return (
@@ -9,7 +9,7 @@ const LevelRouter= ()=>{
             <Routes>
 
                 <Route path='/' element={<App/>}></Route>
-                <Route path='/edit' element={<Edit/>}></Route>
+                <Route path='/write' element={<Write/>}></Route>
                 <Route path='/detail/:no' element={<Detail/>}/>
 
                 
