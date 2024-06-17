@@ -4,6 +4,7 @@ const PostList= ()=>{
     return (
         <div>
             <Post/>
+            <Post/>
         </div>
 
     )
