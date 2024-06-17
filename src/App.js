@@ -1,6 +1,6 @@
 import Communication from './component/Communication'
 import './font/font.css'
-import { styled, createGlobalStyle  } from 'styled-components'
+import { styled  } from 'styled-components'
 
 const App= ()=>{
 
@@ -18,9 +18,3 @@ const Container= styled.div`
   height: 100%;
 `
 
-const FontStyle = createGlobalStyle`
-   body {
-        line-height: 1;
-        font-family: "KCC-Hanbit";
-    }
-`;

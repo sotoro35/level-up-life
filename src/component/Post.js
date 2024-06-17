@@ -1,6 +1,7 @@
 import { styled } from 'styled-components'
 import profile from '../img/profile.png'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Post= ()=>{
 
@@ -9,23 +10,31 @@ const Post= ()=>{
     const [content, setContent] = useState('도감완성')
     const [comment, setComment] = useState('0')
 
+    const navigate= useNavigate()
+
+    const goDetail= ()=>{
+        navigate('/detail')
+    }
+
     return (
-        <Card>
+        <Card onClick={goDetail}>
             <div className='pofile'>
                 <div>
                     <img src={profile}></img>
                 </div>
 
                 <div className='name'>
-                    <h3>{nickname}</h3>
-                    <p>Lv.{level}</p>
+                    <h3>aa</h3>
+                    <p>Lv.11</p>
                 </div>
             </div>
 
             <div className='content'>
-                    <p>{content}</p>
-                    <h5>댓글 : {comment}</h5>
+                    <p>aaaa</p>
+                    <h5>댓글 : aaaa</h5>
             </div>
+
+            <comment/>
         </Card>
     )
 }
