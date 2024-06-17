@@ -1,19 +1,59 @@
 import { styled, createGlobalStyle  } from 'styled-components'
-import { useNavigate } from 'react-router-dom'
 import ai1 from '../img/ai1.gif'
 import PostList from './PostList'
 import { useEffect, useState } from 'react'
 import { AnimatePresence,motion } from 'framer-motion'
 import Write from './Write'
+import { useSelector,useDispatch } from 'react-redux'
+import { userAction } from '../redux/userReducer'
 
 const Communication= ()=>{
     
-    const navigate = useNavigate()
-    const [visible, setVisible]= useState(false)
 
-    const goWrite= ()=>{
-      navigate('/write')
+    const [visible, setVisible]= useState(false)
+    const [posts, setPosts] = useState(null)
+    const [load, setLoad] = useState(false)
+
+    //앱에서 유저 정보 받아오기
+
+    const newUser= {
+        uid:'test',
+        nickname:'유저세팅',
+        level:'2',
+        hero:'2',
     }
+
+    const dispatch= useDispatch()
+    const user= useSelector(state=> state.setUser.user)
+
+    const boardLoad= ()=>{
+      const url = "http://myhero.dothome.co.kr/levelUpLife/board/boardSelect.php"
+
+        // fetch(url).then(res=>res.text()).then(text=>alert(text)).catch(e=>alert(e))
+
+        fetch(url)
+        .then(res=>res.json())
+        .then(json=>setPosts(json))
+        .catch(e=>alert(e.message))
+    }
+
+
+
+    useEffect(()=>{
+      dispatch(userAction(newUser))
+
+      const url = "http://myhero.dothome.co.kr/levelUpLife/board/boardSelect.php"
+
+        // fetch(url).then(res=>res.text()).then(text=>alert(text)).catch(e=>alert(e))
+
+        fetch(url)
+        .then(res=>res.json())
+        .then(json=>setPosts(json))
+        .catch(e=>alert(e.message))
+
+        setLoad(false)
+    },[load])
+
     
     return (
   
@@ -38,7 +78,9 @@ const Communication= ()=>{
           </div>
         </div>
 
-        <PostList></PostList>
+        {
+          posts ? <PostList posts={posts}></PostList> : <></>
+        }
 
         <AnimatePresence>
           {
@@ -61,7 +103,7 @@ const Communication= ()=>{
                 animate={{scale:1, y:0}}
                 exit={{scale:0, y:'100vh'}}
                 >
-                  <Write setVisible={setVisible} />
+                  <Write setLoad={setLoad} setVisible={setVisible} account={user}/>
                 </motion.div>
               </div>
             )

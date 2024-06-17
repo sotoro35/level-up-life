@@ -1,38 +1,97 @@
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
-import profile from '../img/profile.png'
 import Post from "./Post";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence,motion } from 'framer-motion'
 import Write from "./Write";
+import { useSelector } from "react-redux";
+import PostComment from "./PostComment";
 
 const Detail= ()=>{
 
+    const user= useSelector(state=> state.setUser.user)
+    const location = useLocation()
+    const post = location.state.post
     const navigate= useNavigate()
-    const inputRef= useRef()
     const [visible, setVisible]= useState(false)
+    
+    const [detailPost,setDetailPost] = useState(null)
+
+    const [load, setLoad] = useState(false)
+    const inputRef= useRef()
+    const [addCm,setAddCm] = useState(false)
+    const [comments,setComments]= useState(null)
+    let [comment,setComment] =useState('')
+    const [commentL,setCommentL]= useState('0')
+
+    // console.log('디테일페이지'+post)
+    
+    // if(post){
+    //     //alert('값이 있어요:'+post.content)
+    // }
+    
 
     // user = 현재 로그인 된 유저 아이디
     // postUser = 현재 선택된 게시물 작성자 아이디
-    const user= 'aa'
-    const postUser= 'aa'
+    const userId= user.uid
+    const postUser= post.uid
+    const postNo = post.no
+
+    const detailServer= ()=>{
+        const data = new FormData()
+        data.append("no", post.no)
+
+        const url = "http://myhero.dothome.co.kr/levelUpLife/board/DetailPost.php"
+
+        // fetch(url,{
+        //     method: "POST",
+        //     body: data
+        // }).then(res=>res.text()).then(text=>alert(text)).catch(e=>alert(e))
+
+        fetch(url,{
+            method: "POST",
+            body: data
+        }).then(res=>res.json())
+        .then(json=>{
+            setDetailPost(json)
+            console.log(json)
+        })
+        .catch(e=>alert('에러:'+e.message))
+    }
 
     const goList= ()=>{
-        navigate('/')
+        navigate(-1)
     }
 
     const addComment= (event)=>{
-        event.preventDefault()
-        const comment= inputRef.current.value
-        // alert(comment)
-
         // 댓글 등록 함수
+        event.preventDefault()
+        comment= inputRef.current.value
+        // alert(comment)
         //comment에 인풋 값 들어있음
-        // 서버작업 해주세요
 
-        inputRef.current.value=''
+        const url = "http://myhero.dothome.co.kr/levelUpLife/board/CommentAdd.php"
 
+            const data = new FormData()
+            data.append("boardNo", postNo)
+            data.append("uid", user.uid)
+            data.append("nickname", user.nickname)
+            data.append("level", user.level)
+            data.append("hero", user.hero)
+            data.append("content", comment)
+            
+            fetch(url, {
+                method: "POST",
+                body: data
+            }).then(res => res.text())
+            .then(text => {
+                alert(text)
+                commentList()
+                setAddCm(true)
+                setComment('')
+            })
+            .catch(e => alert(e.message))
     }
 
     const goEdit= ()=>{
@@ -42,46 +101,105 @@ const Detail= ()=>{
 
     const goDelete= ()=>{
         //게시글 삭제 함수
+
+        const answer = window.confirm("게시물을 삭제합니다")
         
-        navigate('/')
+        if(answer){
+            const url = "http://myhero.dothome.co.kr/levelUpLife/board/boardDelete.php"
+
+            const data = new FormData()
+            data.append("uid", postUser)
+            data.append("no", postNo)
+        
+
+            fetch(url, {
+                method: "POST",
+                body: data
+            }).then(res => res.text())
+            .then(text => {
+                alert(text)
+                navigate('/')
+            })
+            .catch(e => alert(e.message))
+
+        }else {}
     }
 
+    const commentList= ()=>{
 
+        const data = new FormData()
+        data.append("boardNo", postNo)
+
+        const url = "http://myhero.dothome.co.kr/levelUpLife/board/CommentList.php"
+
+        // fetch(url,{
+        //     method: "POST",
+        //     body: data
+        // }).then(res=>res.text()).then(text=>alert(text)).catch(e=>alert(e))
+
+        fetch(url,{
+            method: "POST",
+            body: data
+        }).then(res=>res.json())
+        .then(json=>{
+            setComments(json)
+            console.log(json)
+        })
+        .catch(e=>alert('에러:'+e.message))
+    }
+
+    useEffect(()=>{
+        commentList()
+        detailServer()
+        setAddCm(false)
+    },[load,addCm])
+
+    //[load, addCm]
 
     return (
         <Container>
             <label onClick={goList}><MdOutlineArrowBackIosNew/> 뒤로</label>
 
-            
-
             <div className="contentD">
 
-                { user != postUser ? <></> :
+                { userId != postUser ? <></> :
                 <div className="edit">
                 <p onClick={goEdit}>수정</p>
                 <span>&ensp;/&ensp;</span>
                 <p onClick={goDelete}>삭제</p>
                 </div> 
                  }
+
+
+                 {
+                    detailPost? <Post postD={detailPost} commentL={comments? comments.length : null}/> : <></>
+                 }
                 
 
-                <Post postD="postD"/>
-
+            {
+                comments?
                 <div className="commentB">
-                
-                    <PostComment/>
-                    <PostComment/>
+        
+                {
+                    comments ? comments.map((comment,i)=>{
+                        return <PostComment comment={comment} key={i}/>
+                    }) 
+                    : <></>
+                }
 
-            </div>
+                </div>
+
+                : <></>
+            }
                 
             </div>
 
             <div className="input">
-                <h4>AI 검증 봇 사용중</h4>
-                <h5>원활한 커뮤니티 활성화를 위해 이미지 및 텍스트를 검증하고 있습니다.<br/> 비방, 음란, 악성 등 커뮤니티에 부합하지 않는 내용은 등록되지 않습니다.</h5>
+                <h4>AI 모니터링 봇 사용중</h4>
+                <h5>원활한 커뮤니티 활성화를 위해 이미지 및 텍스트를 검증하고 있습니다.<br/> 비방, 음란, 악성 등 커뮤니티에 부합하지 않는 내용은 삭제됩니다.</h5>
                 
                 <form onSubmit={addComment}>
-                    <input ref={inputRef} placeholder="댓글을 입력하세요"></input>
+                    <input ref={inputRef} placeholder="댓글을 입력하세요" onChange={(event)=>{setComment(event.target.value)}} value={comment}></input>
                     <button type="submit">등록</button>
                 </form>
             </div>
@@ -108,7 +226,7 @@ const Detail= ()=>{
                         animate={{scale:1, y:0}}
                         exit={{scale:0, y:'100vh'}}
                         >
-                        <Write setVisible={setVisible} edit='edit'/>
+                        <Write setVisible={setVisible} edit='edit' postD={post} setLoad={setLoad}/>
                         </motion.div>
                     </div>
                     )
@@ -120,29 +238,29 @@ const Detail= ()=>{
     )
 }
 
-const PostComment= ()=>{
+// const PostComment= ()=>{
 
-    const [profileImg, setProfile] = useState(profile)
-    const [nickName, setnickName] = useState('레벨업라이프')
-    const [level, setLevel] = useState('0')
+//     const [profileImg, setProfile] = useState(profile)
+//     const [nickName, setnickName] = useState('레벨업라이프')
+//     const [level, setLevel] = useState('0')
 
-    return (
-        <div className="commentD">
-            <div className='PofileD'>
-                        <div>
-                            <img src={profileImg} alt="profile"></img>
-                        </div>
+//     return (
+//         <div className="commentD">
+//             <div className='PofileD'>
+//                         <div>
+//                             <img src={profileImg} alt="profile"></img>
+//                         </div>
 
-                        <div className='nameD'>
-                            <h5>{nickName}</h5>
-                            <h6>Lv.{level}</h6>
-                        </div>
-                    </div>
-                    <p>저도 오늘 시작했습니다</p> 
+//                         <div className='nameD'>
+//                             <h5>{nickName}</h5>
+//                             <h6>Lv.{level}</h6>
+//                         </div>
+//                     </div>
+//                     <p>저도 오늘 시작했습니다</p> 
 
-        </div>
-    )
-}
+//         </div>
+//     )
+// }
 
 export default Detail
 
@@ -227,13 +345,17 @@ const Container= styled.div`
         margin: 0 1.5rem;
         padding: .5rem;
 
-        .commentD{
+        .commentD:not(:first-child) {
+        border-top: 1px solid rgb(217, 217, 217);
+        }
+
+        /* .commentD{
             width: 100%;
             border: 0;
             margin-bottom: .5rem;      
-        }
+        } */
 
-        .commentD:not(:first-child) {
+        /* .commentD:not(:first-child) {
             border-top: 1px solid rgb(217, 217, 217);
             }
 
@@ -262,16 +384,12 @@ const Container= styled.div`
             }
 
             
-            }
+            } */
 
      p{
             font-size: 12px;
         }
     }
-
-
-    
-
 
     .input{
         width: 100%;

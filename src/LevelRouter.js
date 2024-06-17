@@ -4,14 +4,14 @@ import Detail from './component/Detail'
 import Write from './component/Write'
 
 const LevelRouter= ()=>{
+    
     return (
-        <BrowserRouter>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
             <Routes>
 
                 <Route path='/' element={<App/>}></Route>
                 <Route path='/write' element={<Write/>}></Route>
                 <Route path='/detail/:no' element={<Detail/>}/>
-
                 
             </Routes>
         </BrowserRouter>

@@ -1,26 +1,54 @@
 import { styled } from 'styled-components'
 import profile from '../img/profile.png'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const Post= (props)=>{
 
-    const [nickname, setNickname] = useState('드래곤입니다')
-    const [level, setLevel] = useState('57')
-    const [content, setContent] = useState('도감완성')
-    const [comment, setComment] = useState('2')
-    const [profileImg, setprofile] = useState(profile)
-    const [imgSrc,setImgSrc] = useState(profile) // 서버에 등록된 이미지 url
-
     const navigate= useNavigate()
 
-    const goDetail= (no)=>{
-        navigate('/detail/'+no)
-        // navigate('/detail')
+    if(props.postD){
+        //alert('postD왔어요')
+        const postD= props.postD
+        console.log(props.postD)
+        //alert(props.postD[0].no)
     }
 
+    const postD= props.postD
+    const commentL= props.commentL
+
+    // if(commentL){
+    //     alert('commentL왔엉'+props.commentL+'개')
+    // }
+
+    
+
+    // const post = props.post
+    const { post, onClick } = props;
+    const imgUrl= 'http://myhero.dothome.co.kr/levelUpLife/board/boardImgs/'
+    const [nickname, setNickname] = useState(props.postD? postD[0].nickname : post.nickname)
+    const [level, setLevel] = useState( props.postD? postD[0].level : post.level)
+    const [content, setContent] = useState( props.postD? postD[0].content : post.content)
+    const [comment, setComment] = useState(props.commentL? props.commentL+'개' : '0')
+    const [profileImg, setprofile] = useState(profile)
+    const [imgSrc,setImgSrc]= useState(props.postD && props.postD[0].imgUrl ? (imgUrl + props.postD[0].imgUrl) :
+                                        props.post && props.post.imgUrl ? (imgUrl + props.post.imgUrl) : null)
+
+
+    
+
+
+    const goDetail = () => {
+        if (onClick) {
+          onClick(post.no);
+        }
+    }
+
+
+   
     return (
         <Card {...props} onClick={goDetail}>
+            
             <div className='pofile'>
                 <div>
                     <img src={profileImg} alt='profile'></img>
@@ -77,7 +105,7 @@ const Card= styled.div`
             img{
             border: 2px solid rgb(142, 103, 0);
             border-radius: 10px;
-            width: 4rem;
+            width: 3rem;
         }
 
         }
