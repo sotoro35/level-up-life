@@ -13,6 +13,9 @@ const Communication= ()=>{
     const [visible, setVisible]= useState(false)
     const [posts, setPosts] = useState(null)
     const [load, setLoad] = useState(false)
+    const [comList, SetComList ] = useState(null)
+    const combinedData = [posts, comList];
+
 
     //앱에서 유저 정보 받아오기
 
@@ -26,22 +29,28 @@ const Communication= ()=>{
     const dispatch= useDispatch()
     const user= useSelector(state=> state.setUser.user)
 
-    const boardLoad= ()=>{
-      const url = "http://myhero.dothome.co.kr/levelUpLife/board/boardSelect.php"
+    const listCom= ()=>{
 
-        // fetch(url).then(res=>res.text()).then(text=>alert(text)).catch(e=>alert(e))
+      const url = "http://myhero.dothome.co.kr/levelUpLife/board/boardComment.php"
 
-        fetch(url)
-        .then(res=>res.json())
-        .then(json=>setPosts(json))
-        .catch(e=>alert(e.message))
-    }
+      // fetch(url,{
+      //     method: "POST",
+      //     body: data
+      // }).then(res=>res.text()).then(text=>alert(text)).catch(e=>alert(e))
 
+      fetch(url)
+      .then(res=>res.json())
+      .then(json=>{
+          SetComList(json)
+          console.log('댓글리스트'+json)
+      })
+      .catch(e=>alert('에러:'+e.message))
+  }
 
 
     useEffect(()=>{
       dispatch(userAction(newUser))
-
+      listCom()
       const url = "http://myhero.dothome.co.kr/levelUpLife/board/boardSelect.php"
 
         // fetch(url).then(res=>res.text()).then(text=>alert(text)).catch(e=>alert(e))
@@ -53,6 +62,8 @@ const Communication= ()=>{
 
         setLoad(false)
     },[load])
+
+    
 
     
     return (
@@ -79,7 +90,7 @@ const Communication= ()=>{
         </div>
 
         {
-          posts ? <PostList posts={posts}></PostList> : <></>
+          posts && comList ? <PostList combinedData={combinedData} load={load}></PostList> : <></>
         }
 
         <AnimatePresence>

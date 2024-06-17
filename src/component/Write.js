@@ -2,21 +2,22 @@ import { styled } from 'styled-components'
 import ai2 from '../img/ai2.gif'
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 
 const Write= (props)=>{
  
     const imgUrl= 'http://myhero.dothome.co.kr/levelUpLife/board/boardImgs/'
     const postD= props.postD
     //postD? alert('포스트d와써요'+postD.imgUrl) : alert('포스트d안와써요')
-    const navigate = useNavigate()
 
     const fileInputRef= useRef(null)
     const [imgSrc, setImgSrc] = useState(()=>{
         return props.edit == 'edit' ? (props.postD && props.postD.imgUrl ? (imgUrl + postD.imgUrl) : null) : null
     })
     const [file, setFile] = useState(null)
-    const [content,setContent] = useState(props.postD? postD.content : '내용이 없습니다')
+    const [msg, setMsg] = useState(props.postD? props.postD.content :'내용이 없습니다')
+
+    const [update, setUpdate]= useState(false)
+    const aaa=''
 
     const user= useSelector(state=> state.setUser.user)
     // alert(user.uid)
@@ -34,7 +35,7 @@ const Write= (props)=>{
         data.append("nickname", user.nickname)
         data.append("level", user.level)
         data.append("hero", user.hero)
-        data.append("content", content)
+        data.append("content", msg)
 
         fetch(url, {
             method: "POST",
@@ -62,7 +63,7 @@ const Write= (props)=>{
 
         if (file) data.append("img", file)
         data.append("uid", user.uid)
-        data.append("content", content)
+        data.append("content", msg)
         data.append("no",postD.no)
 
         fetch(url, {
@@ -71,7 +72,10 @@ const Write= (props)=>{
         }).then(res => res.text())
         .then(text => {
             alert(text)
-            props.setLoad(true)
+            props.setContentD(msg)
+            props.setimgD(imgSrc)
+            setUpdate(true)
+            console.log(msg)
         })
         .catch(e => alert(e.message))
 
@@ -101,7 +105,24 @@ const Write= (props)=>{
              }
         reader.readAsDataURL(file)
         }
-    },[file])
+
+
+        // if (props.postD) {
+        //     setMsg(props.postD.content);
+        //     console.log('콘텐츠내용바뀜'+props.postD.content)
+        //     console.log('현재콘텐츠'+content)
+        // }
+
+        if(props.contentD){
+            setMsg(props.contentD)
+        }
+
+        if(props.imgD){
+            setImgSrc(props.imgD)
+        }
+        setUpdate(false)
+
+    },[file,update])
 
     return (
         <Container>
@@ -110,7 +131,7 @@ const Write= (props)=>{
             <h6>원활한 커뮤니티 활성화를 위해 이미지 및 텍스트를 검증하고 있습니다.<br/>비방, 음락, 악성 등 커뮤니티에 부합하지 않는 내용은 삭제됩니다. </h6>
 
             <form onSubmit={props.edit == 'edit' ? EditPost : addWrite}>
-                <textarea placeholder='내용을 입력해주세요' onChange={(e) => setContent(e.target.value)}>{props.edit == 'edit' ? content : ''}</textarea>
+                <textarea placeholder='내용을 입력해주세요' onChange={(e) => setMsg(e.target.value)} value={props.edit == 'edit' ? msg :null}></textarea>
                 <div className='addImg' onClick={fileClick}>
                     {imgSrc ? (
                         <img

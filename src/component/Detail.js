@@ -13,17 +13,22 @@ const Detail= ()=>{
     const user= useSelector(state=> state.setUser.user)
     const location = useLocation()
     const post = location.state.post
+
+    const [postD,setPostD]= useState(post)
     const navigate= useNavigate()
     const [visible, setVisible]= useState(false)
-    
-    const [detailPost,setDetailPost] = useState(null)
+    const [contentD,setContentD]= useState('')
+    const [imgD,setimgD]= useState('')
 
-    const [load, setLoad] = useState(false)
+    
+    //const [detailPost,setDetailPost] = useState(null)
+    //const [loadD, setLoadD] = useState(false)
     const inputRef= useRef()
     const [addCm,setAddCm] = useState(false)
     const [comments,setComments]= useState(null)
     let [comment,setComment] =useState('')
-    const [commentL,setCommentL]= useState('0')
+    //const [commentL,setCommentL]= useState('0')
+
 
     // console.log('디테일페이지'+post)
     
@@ -38,27 +43,30 @@ const Detail= ()=>{
     const postUser= post.uid
     const postNo = post.no
 
-    const detailServer= ()=>{
-        const data = new FormData()
-        data.append("no", post.no)
+    // const detailServer= ()=>{
+    //     const data = new FormData()
+    //     data.append("no", post.no)
 
-        const url = "http://myhero.dothome.co.kr/levelUpLife/board/DetailPost.php"
+    //     const url = "http://myhero.dothome.co.kr/levelUpLife/board/DetailPost.php"
 
-        // fetch(url,{
-        //     method: "POST",
-        //     body: data
-        // }).then(res=>res.text()).then(text=>alert(text)).catch(e=>alert(e))
+    //     // fetch(url,{
+    //     //     method: "POST",
+    //     //     body: data
+    //     // }).then(res=>res.text()).then(text=>alert(text)).catch(e=>alert(e))
 
-        fetch(url,{
-            method: "POST",
-            body: data
-        }).then(res=>res.json())
-        .then(json=>{
-            setDetailPost(json)
-            console.log(json)
-        })
-        .catch(e=>alert('에러:'+e.message))
-    }
+    //     fetch(url,{
+    //         method: "POST",
+    //         body: data
+    //     }).then(res=>res.json())
+    //     .then (json=>{
+    //         commentList()
+    //         setDetailPost(json)
+    //         setPostD(detailPost[0])
+    //         console.log(json)
+    //     })
+    //     .catch(e=>alert('에러:'+e.message))
+    // }
+
 
     const goList= ()=>{
         navigate(-1)
@@ -67,7 +75,8 @@ const Detail= ()=>{
     const addComment= (event)=>{
         // 댓글 등록 함수
         event.preventDefault()
-        comment= inputRef.current.value
+        // comment= inputRef.current.value
+        const commentValue = inputRef.current.value;
         // alert(comment)
         //comment에 인풋 값 들어있음
 
@@ -79,7 +88,7 @@ const Detail= ()=>{
             data.append("nickname", user.nickname)
             data.append("level", user.level)
             data.append("hero", user.hero)
-            data.append("content", comment)
+            data.append("content", commentValue)
             
             fetch(url, {
                 method: "POST",
@@ -87,9 +96,12 @@ const Detail= ()=>{
             }).then(res => res.text())
             .then(text => {
                 alert(text)
+                setComments(null)
                 commentList()
                 setAddCm(true)
                 setComment('')
+                console.log('코멘트등록')
+                
             })
             .catch(e => alert(e.message))
     }
@@ -143,18 +155,19 @@ const Detail= ()=>{
         }).then(res=>res.json())
         .then(json=>{
             setComments(json)
-            console.log(json)
+            console.log('코멘트불러오기'+json)
         })
         .catch(e=>alert('에러:'+e.message))
     }
 
-    useEffect(()=>{
-        commentList()
-        detailServer()
-        setAddCm(false)
-    },[load,addCm])
 
-    //[load, addCm]
+
+    useEffect(()=>{
+        console.log('디테일그려')
+        commentList()
+        setAddCm(false)
+    },[contentD])
+
 
     return (
         <Container>
@@ -171,26 +184,31 @@ const Detail= ()=>{
                  }
 
 
-                 {
-                    detailPost? <Post postD={detailPost} commentL={comments? comments.length : null}/> : <></>
-                 }
+                 {/* {
+                    detailPost? <Post postD={postD} commentL={comments? comments.length : null}/> : <></>
+                 } */}
+
+                <Post postD={postD} commentL={comments? comments.length : null} contentD={contentD} imgD={imgD}/>
                 
 
             {
-                comments?
-                <div className="commentB">
+
+                // background-color: ${props => props.comments ? 'rgb(237,233,233)' : 'transparent'};
+
+                comments && comments.length > 0 ?
+                <div className="commentB" style={{ backgroundColor: 'rgb(237,233,233)' }}>
         
                 {
                     comments ? comments.map((comment,i)=>{
-                        return <PostComment comment={comment} key={i}/>
+                        return <PostComment comment={comment} setComments={setComments} commentList={commentList}key={i}/>
                     }) 
                     : <></>
                 }
 
                 </div>
 
-                : <></>
-            }
+                : <div className="commentB" style={{ backgroundColor: 'transparent' }}/>
+            } 
                 
             </div>
 
@@ -226,7 +244,7 @@ const Detail= ()=>{
                         animate={{scale:1, y:0}}
                         exit={{scale:0, y:'100vh'}}
                         >
-                        <Write setVisible={setVisible} edit='edit' postD={post} setLoad={setLoad}/>
+                        <Write setVisible={setVisible} edit='edit' postD={postD} setContentD={setContentD} setimgD={setimgD} contentD={contentD} imgD={imgD}/>
                         </motion.div>
                     </div>
                     )
@@ -293,6 +311,7 @@ const Container= styled.div`
     height: 100%;
     background-color: rgb(237,226,197);
     padding: 1rem 0;
+    overflow-y: hidden;
 
     label{
         display: flex;
@@ -336,11 +355,14 @@ const Container= styled.div`
         padding-bottom: 1rem;
         margin: 1rem;
         box-shadow: 1px 3px 5px gray;
+        max-height: 70%;
+        overflow-y: scroll;
         /* border: 1px solid red; */
     }
 
     .commentB{
-        background-color: rgb(237,233,233);
+        /* background-color: rgb(237,233,233); */
+        /* background-color: ${props => props.comments ? 'rgb(237,233,233)' : 'transparent'}; */
         border-radius: 7px;
         margin: 0 1.5rem;
         padding: .5rem;

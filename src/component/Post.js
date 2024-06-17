@@ -1,41 +1,22 @@
 import { styled } from 'styled-components'
 import profile from '../img/profile.png'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 const Post= (props)=>{
 
-    const navigate= useNavigate()
+    const { post, onClick, load, commentCount } = props;
+    const contentD= props.contentD
 
-    if(props.postD){
-        //alert('postD왔어요')
-        const postD= props.postD
-        console.log(props.postD)
-        //alert(props.postD[0].no)
-    }
+    if(props.postD) console.log(props.postD)
+    const imgD= props.imgD
 
-    const postD= props.postD
-    const commentL= props.commentL
-
-    // if(commentL){
-    //     alert('commentL왔엉'+props.commentL+'개')
-    // }
-
-    
-
-    // const post = props.post
-    const { post, onClick } = props;
     const imgUrl= 'http://myhero.dothome.co.kr/levelUpLife/board/boardImgs/'
-    const [nickname, setNickname] = useState(props.postD? postD[0].nickname : post.nickname)
-    const [level, setLevel] = useState( props.postD? postD[0].level : post.level)
-    const [content, setContent] = useState( props.postD? postD[0].content : post.content)
-    const [comment, setComment] = useState(props.commentL? props.commentL+'개' : '0')
+    const [nickname, setNickname] = useState('관리자문의')
+    const [level, setLevel] = useState('관리자문의')
+    const [content, setContent] = useState('관리자문의')
+    const [comment, setComment] = useState('관리자문의')
     const [profileImg, setprofile] = useState(profile)
-    const [imgSrc,setImgSrc]= useState(props.postD && props.postD[0].imgUrl ? (imgUrl + props.postD[0].imgUrl) :
-                                        props.post && props.post.imgUrl ? (imgUrl + props.post.imgUrl) : null)
-
-
-    
+    const [imgSrc,setImgSrc]= useState('관리자문의')
 
 
     const goDetail = () => {
@@ -43,6 +24,32 @@ const Post= (props)=>{
           onClick(post.no);
         }
     }
+
+    useEffect(() => {
+        if (props.postD) {
+            setNickname(props.postD.nickname);
+            setLevel(props.postD.level);
+            setContent(props.postD.content);
+            setImgSrc(props.postD.imgUrl ? (imgUrl + props.postD.imgUrl):null);
+            setComment(props.commentL ? props.commentL : '0');
+        } else {
+            setNickname(props.post.nickname);
+            setLevel(props.post.level);
+            setContent(props.post.content);
+            setImgSrc(props.post.imgUrl ? (imgUrl + props.post.imgUrl) : null);
+            setComment(props.commentCount? props.commentCount : '0')
+        }
+
+
+        if(contentD){
+            setContent(contentD);
+        }
+
+        if(imgD){
+            setImgSrc(imgD)
+        }
+    }, [props.postD, props.post, props.commentL, contentD, imgD, commentCount]);
+
 
 
    
