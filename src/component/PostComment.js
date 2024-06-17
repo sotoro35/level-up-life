@@ -82,8 +82,11 @@ const CommentD= styled.div`
                 
             }
         }
-
             
+    }
+
+    p{
+        margin-left: .2rem;
     }
 
      
