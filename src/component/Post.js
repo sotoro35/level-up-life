@@ -99,7 +99,8 @@ const Card= styled.div`
             h3{
                     color: rgb(142, 103, 0);
                     margin: 0 0 .3rem 0;
-                    font-size: 16px;
+                    font-weight: 400;
+                    font-size: 14px;
                 }
                 
                 p{
@@ -112,7 +113,7 @@ const Card= styled.div`
             margin-left: .5rem;
             border: 1px solid rgb(142, 103, 0);
             border-radius: 20%;
-            width: 3.5rem;
+            width: 3rem;
         }}
     }
 
