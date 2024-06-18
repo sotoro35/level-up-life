@@ -73,7 +73,6 @@ const Communication= ()=>{
         <div className='header'>
           <div>
             <p>AI봇 정찰중..</p>
-            <br/>
             <p>악성 글 차단중...</p>
             <p>악성 유저 차단중....</p>
           </div>

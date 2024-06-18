@@ -20,22 +20,11 @@ const Detail= ()=>{
     const [contentD,setContentD]= useState('')
     const [imgD,setimgD]= useState('')
 
-    
-    //const [detailPost,setDetailPost] = useState(null)
-    //const [loadD, setLoadD] = useState(false)
     const inputRef= useRef()
     const [addCm,setAddCm] = useState(false)
     const [comments,setComments]= useState(null)
     let [comment,setComment] =useState('')
-    //const [commentL,setCommentL]= useState('0')
 
-
-    // console.log('디테일페이지'+post)
-    
-    // if(post){
-    //     //alert('값이 있어요:'+post.content)
-    // }
-    
 
     // user = 현재 로그인 된 유저 아이디
     // postUser = 현재 선택된 게시물 작성자 아이디
@@ -43,29 +32,6 @@ const Detail= ()=>{
     const postUser= post.uid
     const postNo = post.no
 
-    // const detailServer= ()=>{
-    //     const data = new FormData()
-    //     data.append("no", post.no)
-
-    //     const url = "http://myhero.dothome.co.kr/levelUpLife/board/DetailPost.php"
-
-    //     // fetch(url,{
-    //     //     method: "POST",
-    //     //     body: data
-    //     // }).then(res=>res.text()).then(text=>alert(text)).catch(e=>alert(e))
-
-    //     fetch(url,{
-    //         method: "POST",
-    //         body: data
-    //     }).then(res=>res.json())
-    //     .then (json=>{
-    //         commentList()
-    //         setDetailPost(json)
-    //         setPostD(detailPost[0])
-    //         console.log(json)
-    //     })
-    //     .catch(e=>alert('에러:'+e.message))
-    // }
 
 
     const goList= ()=>{
@@ -144,11 +110,6 @@ const Detail= ()=>{
 
         const url = "http://myhero.dothome.co.kr/levelUpLife/board/CommentList.php"
 
-        // fetch(url,{
-        //     method: "POST",
-        //     body: data
-        // }).then(res=>res.text()).then(text=>alert(text)).catch(e=>alert(e))
-
         fetch(url,{
             method: "POST",
             body: data
@@ -166,11 +127,15 @@ const Detail= ()=>{
         console.log('디테일그려')
         commentList()
         setAddCm(false)
+        window.scrollTo(0, 0);
     },[contentD])
+
+    const setFocus= ()=>{
+    }
 
 
     return (
-        <Container>
+        <Container onLoad={setFocus}>
 
             <div className="contentD">
             <label onClick={goList}><MdOutlineArrowBackIosNew/> 뒤로</label>
@@ -183,11 +148,6 @@ const Detail= ()=>{
                 </div> 
                  }
 
-
-                 {/* {
-                    detailPost? <Post postD={postD} commentL={comments? comments.length : null}/> : <></>
-                 } */}
-
                 <Post postD={postD} commentL={comments? comments.length : null} contentD={contentD} imgD={imgD}/>
 
                 <div className="aiText">
@@ -196,8 +156,6 @@ const Detail= ()=>{
                 </div>
 
             {
-
-                // background-color: ${props => props.comments ? 'rgb(237,233,233)' : 'transparent'};
 
                 comments && comments.length > 0 ?
                 <div className="commentB" style={{ backgroundColor: 'rgb(237,233,233)' }}>
