@@ -34,7 +34,7 @@ const Communication= ()=>{
           </div>
         </div>
 
-        <PostList></PostList>
+        <PostList className='postList'></PostList>
   
       </Container>
     )  
@@ -91,7 +91,6 @@ const Container= styled.div`
     bottom: 10px;  
     right: 10px;  
     cursor: pointer;
-
 
     p{
       font-size: 3rem;

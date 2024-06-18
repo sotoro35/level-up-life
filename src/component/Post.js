@@ -43,7 +43,8 @@ const Post= ()=>{
 export default Post
 
 const Card= styled.div`
-    margin: 1rem auto;
+    margin: 0rem auto;
+    margin-top: 1rem;
     border: 2px solid rgb(142, 103, 0);
     border-radius: 10px;
     background-color: white;

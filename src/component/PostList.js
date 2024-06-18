@@ -1,3 +1,4 @@
+
 import Post from "./Post"
 
 const PostList= ()=>{
@@ -16,3 +17,4 @@ const PostList= ()=>{
 }
 
 export default PostList
+
