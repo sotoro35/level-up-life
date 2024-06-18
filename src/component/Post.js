@@ -31,7 +31,7 @@ const Post= ()=>{
 
             <div className='content'>
                     <p>aaaa</p>
-                    <h5>댓글 : aaaa</h5>
+                    <h5>댓글 : 0</h5>
             </div>
 
             <comment/>

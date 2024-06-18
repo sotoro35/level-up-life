@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import profile from '../img/profile.png'
 import icon_pet from '../img/icon_pet.png'
+import deleteIcon from '../img/icon-delete2.png'
 
 
 const PostComment= ()=>{
@@ -11,7 +12,7 @@ const PostComment= ()=>{
     }
 
  
-
+    const aaa = 'bb'
     return (
         <CommentD>
             <div className='PofileD'>
@@ -23,14 +24,22 @@ const PostComment= ()=>{
 
                             <div className="deleteCom">
                                 <h5>닉네임</h5>
-                                <img src={icon_pet} alt="deleteIcon" onClick={deleteComment}/>
+                                {
+                                    aaa === 'aa' ? (
+                                        <img src={deleteIcon} alt="deleteIcon" onClick={deleteComment}/>
+
+                                    ) : (
+                                        <div className="report"><p style={{color:'red'}}>너 신고</p></div>
+                                    )
+                                    }
+                                
 
                             </div>
                             
                             <h6>Lv.30</h6>
                         </div>
                     </div>
-            <p>안녕하세요!</p> 
+            <p>안녕하세요!<br/></p> 
         </CommentD>
     )
 }
@@ -42,11 +51,10 @@ const CommentD= styled.div`
     border: 0;
     margin-bottom: .5rem;      
         
-    /* .commentD:not(:first-child) {
+    &:not(:first-child) {
         border-top: 1px solid rgb(217, 217, 217);
-        } */
+        }
 
-    border-top: 1px solid rgb(217, 217, 217);
 
     .PofileD{
         display: flex;

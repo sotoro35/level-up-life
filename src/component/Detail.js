@@ -2,7 +2,7 @@ import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import Post from "./Post";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { AnimatePresence,motion } from 'framer-motion'
+import { AnimatePresence,color,motion } from 'framer-motion'
 import PostComment from "./PostComment";
 
 const Detail= ()=>{
@@ -31,19 +31,39 @@ const Detail= ()=>{
     }
 
 
+    const aaa = 'bb'
     return (
+
         <Container>
+            <div className="contentD">
             <label onClick={goList}><MdOutlineArrowBackIosNew/> 뒤로</label>
 
-            <div className="contentD">
+                {
+                aaa === 'aa' ? (
+                    <div className="edit">
+                    <p onClick={goEdit}>수정</p>
+                    <span>&ensp;/&ensp;</span>
+                    <p onClick={goDelete}>삭제</p>
+                    </div> 
 
+                ) : (
+                    <div className="report"><p style={{color:'red'}}>너 신고</p></div>
+                )
+                }
+
+                {/* 
                 <div className="edit">
                 <p onClick={goEdit}>수정</p>
                 <span>&ensp;/&ensp;</span>
                 <p onClick={goDelete}>삭제</p>
-                </div> 
+                </div>  */}
 
                 <Post/>
+
+                <div className="aiText">
+                    {/* <h4>AI 모니터링 봇 사용중</h4> */}
+                    <h5>원활한 커뮤니티 활성화를 위해 <span style={{color:'red'}}>텍스트를 검증</span>하고 있습니다.<br/> <span style={{color:'red'}}>비방, 음란, 악성 등</span> 커뮤니티에 부합하지 않는 내용은 삭제됩니다.</h5>
+                </div>
 
                 <div className="commentB" style={{ backgroundColor: 'rgb(237,233,233)' }}>
                 <PostComment/>
@@ -53,22 +73,20 @@ const Detail= ()=>{
                 <PostComment/>
                 <PostComment/>
                 <PostComment/>
-
+                <PostComment/>
+                <PostComment/>
+                <PostComment/>
                 </div>  
                 
                 
             </div>
 
             <div className="input">
-                <h4>AI 모니터링 봇 사용중</h4>
-                <h5>원활한 커뮤니티 활성화를 위해 이미지 및 텍스트를 검증하고 있습니다.<br/> 비방, 음란, 악성 등 커뮤니티에 부합하지 않는 내용은 삭제됩니다.</h5>
-                
                 <form>
                     <input placeholder="댓글을 입력하세요"></input>
                     <button type="submit">등록</button>
                 </form>
             </div>
-
 
         </Container>
     )
@@ -128,9 +146,22 @@ const Container= styled.div`
     width: 100%;
     height: 100%;
     background-color: rgb(237,226,197);
+    /* background-color: rgb(245, 245, 245); */
     padding: .5rem 0;
     display: flex;
     flex-direction: column;
+
+    .contentD{/* 프로필+댓글 */
+
+         /* background-color: rgb(245, 245, 245); */
+        width: 100%;
+        background-color: rgb(237,226,197);
+        border: 0;
+        /* border-radius: 7px; */
+        padding-bottom: 5rem;
+        overflow-y: scroll-none;
+    
+    }
 
     label{
         display: flex;
@@ -139,6 +170,14 @@ const Container= styled.div`
         margin-left: 1rem;
         font-size: 20px;
         color: rgb(142, 103, 0);
+    }
+
+    .report{
+        position: absolute;
+        right: 30px;
+        top: 25px;
+        color: rgb(136,82,50);
+        font-size: 12px;
     }
 
     .edit{ /* 수정 + 삭제 */
@@ -164,46 +203,29 @@ const Container= styled.div`
 
     }/* 수정모드 */
 
+
     .content{/* 내용 */
         border: 0px solid rgb(142, 103, 0);
     }
 
-    .contentD{/* 프로필+댓글 */
-        background-color: rgb(245, 245, 245);
-        border: 1px dotted rgb(142,103,0);
-        border-radius: 7px;
-        padding-bottom: 1rem;
-        margin: 1rem;
-        box-shadow: 1px 3px 5px gray;
-        overflow-y: scroll;
-        /* border: 1px solid red; */
-    }
+    
+       
 
     .commentB{ /* 전체댓글 */
         /* background-color: rgb(237,233,233); */
         /* background-color: ${props => props.comments ? 'rgb(237,233,233)' : 'transparent'}; */
-        border-radius: 5px;
+        border-radius: 7px;
         padding: .5rem;
         position: relative;
-
-     /* p{
-            font-size: 10px;
-        } */
+        margin: 0 1rem;
     }
 
-    .input{
-        width: 100%;
-        position: fixed;
-        bottom: 0px;
-        text-align: center;
-        box-sizing: border-box;
-
-
-        h4{
+    .aiText{
+        /* h4{
         color: red;
-        font-size: 12px;
+        font-size: 1px;
         text-align: center;
-        }
+        } */
 
         h5{
             color: rgb(142, 103, 0);
@@ -212,6 +234,14 @@ const Container= styled.div`
             text-align: center;
             margin: .3rem 0;
         }
+    }
+
+    .input{
+        width: 100%;
+        position: fixed;
+        bottom: 0px;
+        text-align: center;
+        box-sizing: border-box;
 
         form{
             background-color: rgb(142, 103, 0);
