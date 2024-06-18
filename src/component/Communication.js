@@ -58,9 +58,9 @@ const Communication= ()=>{
         fetch(url)
         .then(res=>res.json())
         .then(json=>setPosts(json))
-        .catch(e=>alert(e.message))
-
+        .catch(e=>alert(e.message))  
         setLoad(false)
+        window.scrollTo(0, 0);
     },[load])
 
     
