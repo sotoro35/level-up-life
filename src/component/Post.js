@@ -125,7 +125,7 @@ const Card= styled.div`
         img{
             width: 80px;
             height: 80px;
-            display: inline-block;
+            display: block;
             border: 1px solid gray ;
             border-radius: 7px;
             box-shadow: 1px 1px 3px gray;
