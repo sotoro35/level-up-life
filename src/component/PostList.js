@@ -4,6 +4,12 @@ const PostList= ()=>{
     return (
         <div>
             <Post/>
+            <Post/>
+            <Post/>
+            <Post/>
+            <Post/>
+            <Post/>
+            <Post/>
         </div>
 
     )

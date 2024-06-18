@@ -30,7 +30,7 @@ const PostComment= ()=>{
                             <h6>Lv.30</h6>
                         </div>
                     </div>
-                    <p>안녕하세요!</p> 
+            <p>안녕하세요!</p> 
         </CommentD>
     )
 }
@@ -42,9 +42,11 @@ const CommentD= styled.div`
     border: 0;
     margin-bottom: .5rem;      
         
-    .commentD:not(:first-child) {
+    /* .commentD:not(:first-child) {
         border-top: 1px solid rgb(217, 217, 217);
-        }
+        } */
+
+    border-top: 1px solid rgb(217, 217, 217);
 
     .PofileD{
         display: flex;
@@ -61,8 +63,9 @@ const CommentD= styled.div`
         }
 
         h6{
-            color: burlywood;
+            color:rgb(250, 110, 110);
             font-weight: 100;
+            font-size: 10px;
             }
 
         
@@ -73,12 +76,15 @@ const CommentD= styled.div`
                 width: 70%;
                 color: rgb(142, 103, 0);
                 font-weight: 100;
+                font-size: 12px;
             }
 
             img{
                 margin-left: 1rem;
                 width: 15px;
                 border: 0;
+                position: absolute;
+                right: 10px;
                 
             }
         }
@@ -87,9 +93,7 @@ const CommentD= styled.div`
 
     p{
         margin-left: .2rem;
+        font-size: 10px;
     }
-
-     
-
 
 `

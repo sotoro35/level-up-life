@@ -13,4 +13,4 @@ code {
 }
 
 *{ padding: 0; margin: 0;}
-html, body, #root {height: 100%; width: 100%;}
+html, body, #root {height: 100%; width: 100%; background-color:rgb(237,226,197);}

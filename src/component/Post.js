@@ -43,7 +43,7 @@ export default Post
 
 const Card= styled.div`
     margin: 1rem auto;
-    border: 3px solid rgb(142, 103, 0);
+    border: 2px solid rgb(142, 103, 0);
     border-radius: 10px;
     background-color: white;
     width: 90%;
@@ -56,21 +56,24 @@ const Card= styled.div`
         box-sizing: border-box;
 
         div{
-            margin: 1rem .5rem 0;
+            margin: .8rem 0 0 .5rem;
 
             h3{
                     color: rgb(142, 103, 0);
                     margin: 0 0 .3rem 0;
+                    font-size: 16px;
                 }
                 
                 p{
-                    color: red;
+                    color: rgb(250, 110, 110);
+                    font-size: 12px
                 }
 
             img{
-            border: 3px solid rgb(142, 103, 0);
-            border-radius: 10px;
-            width: 4rem;
+            margin-left: .5rem;
+            border: 1px solid rgb(142, 103, 0);
+            border-radius: 20%;
+            width: 3.5rem;
         }
 
         }
@@ -80,7 +83,7 @@ const Card= styled.div`
     .content{
         box-sizing: content-box;
         background-color: rgb(226, 221, 202);
-        margin: .5rem;
+        margin: .2rem .5rem .5rem .5rem;
         border-radius: 10px;
 
         p{
@@ -91,16 +94,18 @@ const Card= styled.div`
             border-radius: 5px;
             box-sizing: border-box;
             text-align: left;
+
+            font-size: 14px;
         }
 
          h5{
-           
-        background-color: rgb(226, 221, 202);
         text-align: right;
         margin-right: 1rem;
         padding-bottom: .5rem;
         border-radius: 5px;
+        background-color: rgb(226, 221, 202);
         color: rgb(142, 103, 0);
+        font-size: 10px;
     }
     }
 

@@ -54,9 +54,7 @@ const Detail= ()=>{
                 <PostComment/>
                 <PostComment/>
 
-                </div>
-
-                
+                </div>  
                 
                 
             </div>
@@ -130,21 +128,23 @@ const Container= styled.div`
     width: 100%;
     height: 100%;
     background-color: rgb(237,226,197);
-    padding: 1rem 0;
-    overflow-y: hidden;
+    padding: .5rem 0;
+    display: flex;
+    flex-direction: column;
 
     label{
         display: flex;
+        width: 20%;
         align-items: center;
         margin-left: 1rem;
-        color: rgb(142, 103, 0);
         font-size: 20px;
+        color: rgb(142, 103, 0);
     }
 
-    .edit{
+    .edit{ /* 수정 + 삭제 */
         position: absolute;
         right: 25px;
-        top: 25px;
+        top: 20px;
 
         p{
             display: inline-block;
@@ -162,75 +162,33 @@ const Container= styled.div`
             font-size: 14px;
         }
 
+    }/* 수정모드 */
+
+    .content{/* 내용 */
+        border: 0px solid rgb(142, 103, 0);
     }
 
-    .content{
-        border: 1px solid rgb(142, 103, 0);
-    }
-
-    .contentD{
+    .contentD{/* 프로필+댓글 */
         background-color: rgb(245, 245, 245);
-        border: 2px solid rgb(142,103,0);
+        border: 1px dotted rgb(142,103,0);
         border-radius: 7px;
         padding-bottom: 1rem;
         margin: 1rem;
         box-shadow: 1px 3px 5px gray;
-        max-height: 70%;
         overflow-y: scroll;
         /* border: 1px solid red; */
     }
 
-    .commentB{
+    .commentB{ /* 전체댓글 */
         /* background-color: rgb(237,233,233); */
         /* background-color: ${props => props.comments ? 'rgb(237,233,233)' : 'transparent'}; */
-        border-radius: 7px;
-        margin: 0 1.5rem;
+        border-radius: 5px;
         padding: .5rem;
+        position: relative;
 
-        .commentD:not(:first-child) {
-        border-top: 1px solid rgb(217, 217, 217);
-        }
-
-        /* .commentD{
-            width: 100%;
-            border: 0;
-            margin-bottom: .5rem;      
+     /* p{
+            font-size: 10px;
         } */
-
-        /* .commentD:not(:first-child) {
-            border-top: 1px solid rgb(217, 217, 217);
-            }
-
-            .PofileD{
-            display: flex;
-            text-align: left;
-            align-items: center;
-            box-sizing: border-box;
-            padding-top: .7rem;
-
-            img{
-                border: 1px solid rgb(142, 103, 0);
-                border-radius: 10px;
-                width: 2rem;
-                margin-right: .5rem;
-            }
-
-            h5{
-                color: rgb(142, 103, 0);
-                font-weight: 100;
-            }
-
-            h6{
-                color: burlywood;
-                font-weight: 100;
-            }
-
-            
-            } */
-
-     p{
-            font-size: 12px;
-        }
     }
 
     .input{
