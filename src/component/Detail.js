@@ -171,11 +171,11 @@ const Detail= ()=>{
 
     return (
         <Container>
-            <label onClick={goList}><MdOutlineArrowBackIosNew/> 뒤로</label>
 
             <div className="contentD">
+            <label onClick={goList}><MdOutlineArrowBackIosNew/> 뒤로</label>
 
-                { userId != postUser ? <></> :
+                { userId != postUser ? <div className="report"><p style={{color:'red'}}>너 신고</p></div> :
                 <div className="edit">
                 <p onClick={goEdit}>수정</p>
                 <span>&ensp;/&ensp;</span>
@@ -189,7 +189,11 @@ const Detail= ()=>{
                  } */}
 
                 <Post postD={postD} commentL={comments? comments.length : null} contentD={contentD} imgD={imgD}/>
-                
+
+                <div className="aiText">
+                    {/* <h4>AI 모니터링 봇 사용중</h4> */}
+                    <h5>원활한 커뮤니티 활성화를 위해 <span style={{color:'red'}}>텍스트를 검증</span>하고 있습니다.<br/> <span style={{color:'red'}}>비방, 음란, 악성 등</span> 커뮤니티에 부합하지 않는 내용은 삭제됩니다.</h5>
+                </div>
 
             {
 
@@ -212,10 +216,7 @@ const Detail= ()=>{
                 
             </div>
 
-            <div className="input">
-                <h4>AI 모니터링 봇 사용중</h4>
-                <h5>원활한 커뮤니티 활성화를 위해 이미지 및 텍스트를 검증하고 있습니다.<br/> 비방, 음란, 악성 등 커뮤니티에 부합하지 않는 내용은 삭제됩니다.</h5>
-                
+            <div className="input">    
                 <form onSubmit={addComment}>
                     <input ref={inputRef} placeholder="댓글을 입력하세요" onChange={(event)=>{setComment(event.target.value)}} value={comment}></input>
                     <button type="submit">등록</button>
@@ -305,33 +306,50 @@ const modalBack= {
     justifyContent:'center', 
     alignItems:'center'}
 
-const Container= styled.div`
+    const Container= styled.div`
     margin: 0;
     width: 100%;
     height: 100%;
     background-color: rgb(237,226,197);
-    padding: 1rem 0;
-    overflow-y: hidden;
+    padding: .5rem 0;
+    display: flex;
+    flex-direction: column;
+
+    .contentD{/* 프로필+댓글 */
+        width: 100%;
+        background-color: rgb(237,226,197);
+        border: 0;
+        padding-bottom: 5rem;
+        overflow-y: scroll-none;  
+    }
 
     label{
         display: flex;
+        width: 20%;
         align-items: center;
         margin-left: 1rem;
-        color: rgb(142, 103, 0);
         font-size: 20px;
+        color: rgb(142, 103, 0);
     }
 
-    .edit{
+    .report{
+        position: absolute;
+        right: 30px;
+        top: 25px;
+        color: rgb(136,82,50);
+        font-size: 12px;
+    }
+
+    .edit{ /* 수정 + 삭제 */
         position: absolute;
         right: 25px;
-        top: 25px;
+        top: 20px;
 
         p{
             display: inline-block;
             color: rgb(136,82,50);
             font-weight: 500;
             font-size: 14px;
-            /* border: 1px solid red; */
             padding: .5rem .2rem;
             cursor: pointer;
         }
@@ -341,75 +359,23 @@ const Container= styled.div`
             font-weight: 500;
             font-size: 14px;
         }
+    }/* 수정모드 */
 
-    }
 
-    .content{
-        border: 1px solid rgb(142, 103, 0);
-    }
-
-    .contentD{
-        background-color: rgb(245, 245, 245);
-        border: 2px solid rgb(142,103,0);
+    .commentB{ /* 전체댓글 */
         border-radius: 7px;
-        padding-bottom: 1rem;
-        margin: 1rem;
-        box-shadow: 1px 3px 5px gray;
-        max-height: 70%;
-        overflow-y: scroll;
-        /* border: 1px solid red; */
-    }
-
-    .commentB{
-        /* background-color: rgb(237,233,233); */
-        /* background-color: ${props => props.comments ? 'rgb(237,233,233)' : 'transparent'}; */
-        border-radius: 7px;
-        margin: 0 1.5rem;
         padding: .5rem;
+        position: relative;
+        margin: 0 1rem;
+    }
 
-        .commentD:not(:first-child) {
-        border-top: 1px solid rgb(217, 217, 217);
-        }
-
-        /* .commentD{
-            width: 100%;
-            border: 0;
-            margin-bottom: .5rem;      
-        } */
-
-        /* .commentD:not(:first-child) {
-            border-top: 1px solid rgb(217, 217, 217);
-            }
-
-            .PofileD{
-            display: flex;
-            text-align: left;
-            align-items: center;
-            box-sizing: border-box;
-            padding-top: .7rem;
-
-            img{
-                border: 1px solid rgb(142, 103, 0);
-                border-radius: 10px;
-                width: 2rem;
-                margin-right: .5rem;
-            }
-
-            h5{
-                color: rgb(142, 103, 0);
-                font-weight: 100;
-            }
-
-            h6{
-                color: burlywood;
-                font-weight: 100;
-            }
-
-            
-            } */
-
-     p{
-            font-size: 12px;
+    .aiText{
+        h5{
+            color: rgb(142, 103, 0);
+            font-size: 10px;
+            font-weight: 200;
+            text-align: center;
+            margin: .3rem 0;
         }
     }
 
@@ -419,21 +385,6 @@ const Container= styled.div`
         bottom: 0px;
         text-align: center;
         box-sizing: border-box;
-
-
-        h4{
-        color: red;
-        font-size: 12px;
-        text-align: center;
-        }
-
-        h5{
-            color: rgb(142, 103, 0);
-            font-size: 10px;
-            font-weight: 200;
-            text-align: center;
-            margin: .3rem 0;
-        }
 
         form{
             background-color: rgb(142, 103, 0);
@@ -459,10 +410,7 @@ const Container= styled.div`
                 color: white;
                 box-shadow: 1px 2px 5px gray;
             }
-        }
-
-        
+        } 
     }
-
     
 `

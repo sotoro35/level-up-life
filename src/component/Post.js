@@ -80,10 +80,10 @@ export default Post
 
 const Card= styled.div`
     margin: 1rem auto;
-    /* background-color: ${props => props.current ? 'darkgray' : 'dimgray'}; */
-    border: ${props => props.postD == 'postD' ? '0' : '3px solid rgb(142, 103, 0)'};
+    border: ${props => props.postD == 'postD' ? '0' : '2px solid rgb(142, 103, 0)'};
     border-radius: 10px;
-    background-color: rgb(245, 245, 245);
+    background-color: white;
+    /* background-color: rgb(245, 245, 245); */
     width: 90%;
     box-sizing: border-box;
 
@@ -94,45 +94,43 @@ const Card= styled.div`
         box-sizing: border-box;
 
         div{
-            margin: 1rem .5rem 0;
+            margin: .8rem 0 0 .5rem;
 
             h3{
                     color: rgb(142, 103, 0);
                     margin: 0 0 .3rem 0;
-                    font-weight: 100;
                     font-size: 16px;
                 }
                 
                 p{
-                    color: burlywood;
-                    font-size: 14px;
+                    color: rgb(250, 110, 110);
+                    font-size: 12px
                     
                 }
 
             img{
-            border: 2px solid rgb(142, 103, 0);
-            border-radius: 10px;
-            width: 3rem;
-        }
-
-        }
-        
+            margin-left: .5rem;
+            border: 1px solid rgb(142, 103, 0);
+            border-radius: 20%;
+            width: 3.5rem;
+        }}
     }
 
     .content{
         box-sizing: content-box;
         background-color: rgb(226, 221, 202);
-        margin: .5rem;
-        border-radius: 7px;
-        text-align: left;
+        margin: .2rem .5rem .5rem .5rem;
+        border-radius: 10px;
 
         img{
             width: 80px;
             height: 80px;
+            display: inline-block;
             border: 1px solid gray ;
             border-radius: 7px;
             box-shadow: 1px 1px 3px gray;
             margin-left: .5rem;
+            text-align: left;
         }
 
         p{
@@ -146,19 +144,15 @@ const Card= styled.div`
             font-size: 14px;
         }
 
-         h5{
-           
-        background-color: rgb(226, 221, 202);
-        text-align: right;
-        margin-right: 1rem;
-        padding-bottom: .5rem;
-        border-radius: 5px;
-        color: rgb(142, 103, 0);
-        font-size: 12px;
+        h5{        
+            background-color: rgb(226, 221, 202);
+            text-align: right;
+            margin-right: 1rem;
+            padding-bottom: .5rem;
+            border-radius: 5px;
+            color: rgb(142, 103, 0);
+            font-size: 10px;
+        }
     }
-    }
-
-    
-
     
 `

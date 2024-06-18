@@ -160,7 +160,7 @@ const Container= styled.div`
 
   .header{
     width: 90%;
-    height: 14%;
+    height: 10%;
     margin: 0 auto;
     background-color: rgb(231,217,169);
     border: 3px solid rgb(142,103,0);
@@ -177,33 +177,33 @@ const Container= styled.div`
 
       p{
         color: rgb(244,98,76);
-        font-size: 14px;
+        font-size: 12px;
       }
       
       img{
-        width: 100%;
+        width: 120px;
       }
     }
   }
 
   .floating{
-    width: 15%;
-    height: 6%;
+    width: 10%;
+    height: 5%;
     border: 3px solid rgb(142,103,0);
-    border-radius: 5px;
+    border-radius: 25%;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: rgb(237,233,233);
     box-shadow: 1px 2px 5px gray;
     position: fixed;
-    bottom: 20px;  
-    right: 20px;  
+    bottom: 10px;  
+    right: 10px;  
     cursor: pointer;
 
 
     p{
-      font-size: 4rem;
+      font-size: 3rem;
       color: rgb(142,103,0);
     }
   }

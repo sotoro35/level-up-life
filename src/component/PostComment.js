@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import styled from "styled-components"
 import profile from '../img/profile.png'
 import { useSelector } from "react-redux";
-import deleteIcon from '../img/delete.png'
+import deleteIcon from '../img/delete2.png'
 
 
 const PostComment= (props)=>{
@@ -64,7 +64,8 @@ const PostComment= (props)=>{
                             <div className="deleteCom">
                                 <h5>{nickName}</h5>
                                 {
-                                    userId == commentId ? <img src={deleteIcon} alt="deleteIcon" onClick={deleteComment}/> : <></>
+                                    userId == commentId ? <img src={deleteIcon} alt="deleteIcon" onClick={deleteComment}/> 
+                                    : <div className="report"><p style={{color:'red'}}>너 신고</p></div>
                                 }
                             </div>
                             
@@ -83,7 +84,7 @@ const CommentD= styled.div`
     border: 0;
     margin-bottom: .5rem;      
         
-    .commentD:not(:first-child) {
+    &:not(:first-child) {
         border-top: 1px solid rgb(217, 217, 217);
         }
 
@@ -102,8 +103,9 @@ const CommentD= styled.div`
         }
 
         h6{
-            color: burlywood;
+            color:rgb(250, 110, 110);
             font-weight: 100;
+            font-size: 10px;
             }
 
         
@@ -114,20 +116,23 @@ const CommentD= styled.div`
                 width: 70%;
                 color: rgb(142, 103, 0);
                 font-weight: 100;
+                font-size: 12px;
             }
 
             img{
                 margin-left: 1rem;
                 width: 15px;
                 border: 0;
-                
+                position: absolute;
+                right: 10px;
             }
         }
-
-            
     }
 
-     
+    p{
+        margin-left: .2rem;
+        font-size: 10px;
+    }
 
 
 `
