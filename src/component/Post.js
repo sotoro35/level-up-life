@@ -31,6 +31,7 @@ const Post= ()=>{
 
             <div className='content'>
                     <p>aaaa</p>
+                    <img src={profile}></img>
                     <h5>댓글 : 0</h5>
             </div>
 
@@ -86,6 +87,17 @@ const Card= styled.div`
         margin: .2rem .5rem .5rem .5rem;
         border-radius: 10px;
 
+        img{
+            width: 80px;
+            height: 80px;
+            display: block;
+            border: 1px solid gray ;
+            border-radius: 7px;
+            box-shadow: 1px 1px 3px gray;
+            margin-left: .5rem;
+            text-align: left;
+       	 }
+
         p{
             width: 100%;
             border: 0;
@@ -94,7 +106,6 @@ const Card= styled.div`
             border-radius: 5px;
             box-sizing: border-box;
             text-align: left;
-
             font-size: 14px;
         }
 
