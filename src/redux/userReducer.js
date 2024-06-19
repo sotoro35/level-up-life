@@ -1,9 +1,9 @@
 const initState= {
     user:{
         uid:'test@gmail.com',
-        nickname:'테스트닉네임',
-        level:'1',
-        hero:'1',
+        nickname:'레벨업라이프',
+        level:1,
+        hero:1,
     }
 
 }

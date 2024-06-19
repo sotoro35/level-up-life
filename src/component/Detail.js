@@ -7,6 +7,7 @@ import { AnimatePresence,motion } from 'framer-motion'
 import Write from "./Write";
 import { useSelector } from "react-redux";
 import PostComment from "./PostComment";
+import reportUserIcon from '../img/reportUser.png'
 
 const Detail= ()=>{
 
@@ -46,7 +47,8 @@ const Detail= ()=>{
         // alert(comment)
         //comment에 인풋 값 들어있음
 
-        const url = "http://myhero.dothome.co.kr/levelUpLife/board/CommentAdd.php"
+        if(commentValue){
+            const url = "http://myhero.dothome.co.kr/levelUpLife/board/CommentAdd.php"
 
             const data = new FormData()
             data.append("boardNo", postNo)
@@ -70,6 +72,10 @@ const Detail= ()=>{
                 
             })
             .catch(e => alert(e.message))
+
+        }else alert('내용을 입력해주세요')
+
+        
     }
 
     const goEdit= ()=>{
@@ -121,7 +127,9 @@ const Detail= ()=>{
         .catch(e=>alert('에러:'+e.message))
     }
 
-
+    const reportUser= ()=>{
+        alert('신고되었습니다')
+    }
 
     useEffect(()=>{
         console.log('디테일그려')
@@ -140,7 +148,10 @@ const Detail= ()=>{
             <div className="contentD">
             <label onClick={goList}><MdOutlineArrowBackIosNew/> 뒤로</label>
 
-                { userId != postUser ? <div className="report"><p style={{color:'red'}}>너 신고</p></div> :
+                { userId != postUser ? <div className="report" onClick={reportUser}>
+                    <p style={{color:'red'}}>신고하기</p>
+                    {/* <img src={reportUserIcon} alt="deleteIcon" onClick={reportUser}/> */}
+                    </div> :
                 <div className="edit">
                 <p onClick={goEdit}>수정</p>
                 <span>&ensp;/&ensp;</span>
@@ -215,29 +226,6 @@ const Detail= ()=>{
     )
 }
 
-// const PostComment= ()=>{
-
-//     const [profileImg, setProfile] = useState(profile)
-//     const [nickName, setnickName] = useState('레벨업라이프')
-//     const [level, setLevel] = useState('0')
-
-//     return (
-//         <div className="commentD">
-//             <div className='PofileD'>
-//                         <div>
-//                             <img src={profileImg} alt="profile"></img>
-//                         </div>
-
-//                         <div className='nameD'>
-//                             <h5>{nickName}</h5>
-//                             <h6>Lv.{level}</h6>
-//                         </div>
-//                     </div>
-//                     <p>저도 오늘 시작했습니다</p> 
-
-//         </div>
-//     )
-// }
 
 export default Detail
 
@@ -269,7 +257,7 @@ const modalBack= {
     width: 100%;
     height: 100%;
     background-color: rgb(237,226,197);
-    padding: .5rem 0;
+    padding: 1rem 0;
     display: flex;
     flex-direction: column;
 
@@ -294,8 +282,9 @@ const modalBack= {
         position: absolute;
         right: 30px;
         top: 25px;
-        color: rgb(136,82,50);
         font-size: 12px;
+        width: 50px;
+        height: 10px;
     }
 
     .edit{ /* 수정 + 삭제 */

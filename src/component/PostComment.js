@@ -3,6 +3,20 @@ import styled from "styled-components"
 import profile from '../img/profile.png'
 import { useSelector } from "react-redux";
 import deleteIcon from '../img/delete2.png'
+import reportIcon from '../img/report.png'
+import reportUserIcon from '../img/reportUser.png'
+import profile01 from '../profileImg/profile01.png'
+import profile02 from '../profileImg/profile02.png'
+import profile03 from '../profileImg/profile03.png'
+import profile04 from '../profileImg/profile04.png'
+import profile05 from '../profileImg/profile05.png'
+import profile06 from '../profileImg/profile06.png'
+import profile07 from '../profileImg/profile07.png'
+import profile08 from '../profileImg/profile08.png'
+import profile09 from '../profileImg/profile09.png'
+import profile10 from '../profileImg/profile10.png'
+import profile11 from '../profileImg/profile11.png'
+import profile12 from '../profileImg/profile12.png'
 
 
 const PostComment= (props)=>{
@@ -21,7 +35,62 @@ const PostComment= (props)=>{
     console.log(props.comment)
     //alert(props.comment.nickname)
 
+    const setProfileImg = (profileNo) =>{
+        switch(profileNo){
+            case '1' : 
+            setProfile(profile01)
+            break;
+
+            case '2' : 
+            setProfile(profile02)
+            break;
+
+            case '3' : 
+            setProfile(profile03)
+            break;
+
+            case '4' : 
+            setProfile(profile04)
+            break;
+
+            case '5' : 
+            setProfile(profile05)
+            break;
+
+            case '6' : 
+            setProfile(profile06)
+            break;
+
+            case '7' : 
+            setProfile(profile07)
+            break;
+
+            case '8' : 
+            setProfile(profile08)
+            break;
+
+            case '9' : 
+            setProfile(profile09)
+            break;
+
+            case '10' : 
+            setProfile(profile10)
+            break;
+
+            case '11' : 
+            setProfile(profile11)
+            break;
+
+            case '12' : 
+            setProfile(profile12)
+            break;
+
+            default: setProfile(profile12)
+        }
+    }
+
     const deleteComment= ()=>{
+       //alert("댓글을 삭제합니다")
         const answer = window.confirm("댓글을 삭제합니다")
         
         if(answer){
@@ -46,10 +115,16 @@ const PostComment= (props)=>{
         }else {}
     }
 
-    // useEffect(()=>{
+    const reportUser= ()=>{
+        alert('신고되었습니다')
+    }
 
+    useEffect(()=>{
+        if(props.comment){
+            setProfileImg(comment.hero)
+        }
 
-    // },[props.comment])
+    },[props.comment])
     
 
     return (
@@ -63,10 +138,15 @@ const PostComment= (props)=>{
 
                             <div className="deleteCom">
                                 <h5>{nickName}</h5>
-                                {
-                                    userId == commentId ? <img src={deleteIcon} alt="deleteIcon" onClick={deleteComment}/> 
-                                    : <div className="report"><p style={{color:'red'}}>너 신고</p></div>
-                                }
+
+                                {userId === commentId ? (
+                                    <img src={deleteIcon} alt="deleteIcon" onClick={deleteComment} />
+                                ) : (
+                                    // <div className="report">
+                                    //     <p style={{ color: 'red' }}>너 신고</p>
+                                    // </div>
+                                    <img className='reportUserIcon' src={reportIcon} alt="deleteIcon" onClick={reportUser}/>
+                                )}
                             </div>
                             
                             <h6>Lv.{level}</h6>
@@ -98,7 +178,9 @@ const CommentD= styled.div`
         img{
             border: 1px solid rgb(142, 103, 0);
             border-radius: 10px;
-            width: 2rem;
+            width: 30px;
+            height: 30px;
+            display: inline-block;
             margin-right: .5rem;
         }
 
@@ -111,6 +193,10 @@ const CommentD= styled.div`
         
         .deleteCom{
             display: flex;
+            display: flex;
+            width: 100%;  /* 수정된 부분: 너비를 100%로 설정 */
+            align-items: center;  /* 수정된 부분: 세로 정렬을 중앙으로 설정 */
+            justify-content: space-between;  /* 수정된 부분: 공간을 균등하게 분배 */
             h5{
                 flex-grow: 1;
                 width: 70%;
@@ -122,10 +208,17 @@ const CommentD= styled.div`
             img{
                 margin-left: 1rem;
                 width: 15px;
+                height: 15px;
                 border: 0;
                 position: absolute;
+                display: inline-block;
                 right: 10px;
             }
+
+            /* .reportUserIcon{
+                width: 50px;
+                height: 10px;
+            } */
         }
     }
 

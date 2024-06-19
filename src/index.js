@@ -17,10 +17,11 @@ root.render(
   //   {/* <App /> */}
   //   <LevelRouter></LevelRouter>
   // </React.StrictMode>
-
+<React.StrictMode>
   <Provider store={store}>
     <LevelRouter/>
   </Provider>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

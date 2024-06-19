@@ -14,7 +14,7 @@ const Write= (props)=>{
         return props.edit == 'edit' ? (props.postD && props.postD.imgUrl ? (imgUrl + postD.imgUrl) : null) : null
     })
     const [file, setFile] = useState(null)
-    const [msg, setMsg] = useState(props.postD? props.postD.content :'내용이 없습니다')
+    const [msg, setMsg] = useState(props.postD? props.postD.content :'')
 
     const [update, setUpdate]= useState(false)
     const aaa=''
@@ -24,29 +24,31 @@ const Write= (props)=>{
 
     const addWrite= (event)=>{
         event.preventDefault()
-        props.setVisible(false)
-        console.log('게시물을 등록했어요')
-
-        const url = "http://myhero.dothome.co.kr/levelUpLife/board/boardInsert.php"
-        const data = new FormData()
-
-        if (file) data.append("img", file)
-        data.append("uid", user.uid)
-        data.append("nickname", user.nickname)
-        data.append("level", user.level)
-        data.append("hero", user.hero)
-        data.append("content", msg)
-
-        fetch(url, {
-            method: "POST",
-            body: data
-        }).then(res => res.text())
-        .then(text => {
-            alert(text)
-            props.setLoad(true)}
-        )
-        .catch(e => alert(e))
-
+        if(msg){
+            props.setVisible(false)
+            console.log('게시물을 등록했어요')
+    
+            const url = "http://myhero.dothome.co.kr/levelUpLife/board/boardInsert.php"
+            const data = new FormData()
+    
+            if (file) data.append("img", file)
+            data.append("uid", user.uid)
+            data.append("nickname", user.nickname)
+            data.append("level", user.level)
+            data.append("hero", user.hero)
+            data.append("content", msg)
+    
+            fetch(url, {
+                method: "POST",
+                body: data
+            }).then(res => res.text())
+            .then(text => {
+                alert(text)
+                props.setLoad(true)}
+            )
+            .catch(e => alert(e))
+        }else alert('내용을 입력해주세요')
+         
         // props.setLoad(true)
 
         //window.location.reload();
@@ -54,6 +56,7 @@ const Write= (props)=>{
 
     const EditPost=(event)=>{
         event.preventDefault()
+        if(msg){
         props.setVisible(false)
         console.log(file)
         console.log('게시물수정')
@@ -78,7 +81,7 @@ const Write= (props)=>{
             console.log(msg)
         })
         .catch(e => alert(e.message))
-
+    }else alert('내용을 입력해주세요')
         //props.setLoad(true)
         //window.location.reload();
     }
@@ -91,8 +94,9 @@ const Write= (props)=>{
     const selectFile= (event)=>{
         const selectedFile = event.target.files[0]
         setFile(selectedFile)
-
+        
     }
+
 
     useEffect(()=>{
         if(file){
@@ -106,12 +110,6 @@ const Write= (props)=>{
         reader.readAsDataURL(file)
         }
 
-
-        // if (props.postD) {
-        //     setMsg(props.postD.content);
-        //     console.log('콘텐츠내용바뀜'+props.postD.content)
-        //     console.log('현재콘텐츠'+content)
-        // }
 
         if(props.contentD){
             setMsg(props.contentD)
@@ -133,15 +131,16 @@ const Write= (props)=>{
             <form onSubmit={props.edit == 'edit' ? EditPost : addWrite}>
                 <textarea placeholder='내용을 입력해주세요' onChange={(e) => setMsg(e.target.value)} value={props.edit == 'edit' ? msg :null}></textarea>
                 <div className='addImg' onClick={fileClick}>
-                    {imgSrc ? (
+                    {imgSrc ? ( 
                         <img
                         src={imgSrc}
                         alt='SelectedImg'
-                        style={{width:'100%',height:'100%',objectFit:'cover',borderRadius:5}}
-                    />
-                ): (
-                    <h4>+</h4>
-                )}
+                        style={{width:'100%',height:'100%',objectFit:'cover',borderRadius:5}}/>
+                    ): (
+                        <h4>+</h4>
+                     )}
+
+                    
                     <input type='file' ref={fileInputRef} onChange={selectFile} style={{display:'none'}} accept='.jpeg,.png'></input>
                 </div>
                 <p>이미지 추가</p>

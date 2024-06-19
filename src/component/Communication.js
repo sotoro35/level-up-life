@@ -4,8 +4,7 @@ import PostList from './PostList'
 import { useEffect, useState } from 'react'
 import { AnimatePresence,motion } from 'framer-motion'
 import Write from './Write'
-import { useSelector,useDispatch } from 'react-redux'
-import { userAction } from '../redux/userReducer'
+import { useSelector } from 'react-redux'
 
 const Communication= ()=>{
     
@@ -16,17 +15,6 @@ const Communication= ()=>{
     const [comList, SetComList ] = useState(null)
     const combinedData = [posts, comList];
 
-
-    //앱에서 유저 정보 받아오기
-
-    const newUser= {
-        uid:'test',
-        nickname:'유저세팅',
-        level:'2',
-        hero:'2',
-    }
-
-    const dispatch= useDispatch()
     const user= useSelector(state=> state.setUser.user)
 
     const listCom= ()=>{
@@ -47,9 +35,7 @@ const Communication= ()=>{
       .catch(e=>alert('에러:'+e.message))
   }
 
-
-    useEffect(()=>{
-      dispatch(userAction(newUser))
+    useEffect(()=>{    
       listCom()
       const url = "http://myhero.dothome.co.kr/levelUpLife/board/boardSelect.php"
 
