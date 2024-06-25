@@ -1,6 +1,5 @@
 import { styled } from 'styled-components'
 import { useEffect, useState } from 'react'
-import profile from '../img/profile.png'
 import profile01 from '../profileImg/profile01.png'
 import profile02 from '../profileImg/profile02.png'
 import profile03 from '../profileImg/profile03.png'
@@ -33,12 +32,14 @@ const Post= (props)=>{
 
 
     const goDetail = () => {
+        //게시물 이동 
         if (onClick) {
           onClick(post.no);
         }
     }
 
     const setProfileImg = (profileNo) =>{
+        //프로필 이미지 설정
         switch(profileNo){
             case '1' : 
             setprofile(profile01)

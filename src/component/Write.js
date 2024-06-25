@@ -19,12 +19,20 @@ const Write= (props)=>{
     const [update, setUpdate]= useState(false)
     const aaa=''
 
+    const sendWrite= ()=>{
+            //javascriptInterface로 등록할 때 지정한 별칭("Droid")객체가 웹뷰의 window 최상위객체의 멤버로 등록됨
+            window.Droid.loadWrite(msg)
+    }
+
     const user= useSelector(state=> state.setUser.user)
     // alert(user.uid)
 
     const addWrite= (event)=>{
         event.preventDefault()
+
         if(msg){
+            sendWrite(msg)
+
             props.setVisible(false)
             console.log('게시물을 등록했어요')
     
@@ -53,6 +61,37 @@ const Write= (props)=>{
 
         //window.location.reload();
     }
+
+    // window.addWrite= (result)=>{
+    //     sendWrite()
+    //     if(msg){
+    //         props.setVisible(false)
+    //         console.log('게시물을 등록했어요')
+    
+    //         const url = "http://myhero.dothome.co.kr/levelUpLife/board/boardInsert.php"
+    //         const data = new FormData()
+    
+    //         if (file) data.append("img", file)
+    //         data.append("uid", user.uid)
+    //         data.append("nickname", user.nickname)
+    //         data.append("level", user.level)
+    //         data.append("hero", user.hero)
+    //         data.append("content", msg)
+    
+    //         fetch(url, {
+    //             method: "POST",
+    //             body: data
+    //         }).then(res => res.text())
+    //         .then(text => {
+    //             alert(text)
+    //             props.setLoad(true)}
+    //         )
+    //         .catch(e => alert(e))
+    //     }else alert('등록할 수 없는 내용이 있습니다.')
+         
+    //     // props.setLoad(true)
+    //     //window.location.reload();
+    // }
 
     const EditPost=(event)=>{
         event.preventDefault()

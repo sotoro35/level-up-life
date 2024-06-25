@@ -7,25 +7,23 @@ import { AnimatePresence,motion } from 'framer-motion'
 import Write from "./Write";
 import { useSelector } from "react-redux";
 import PostComment from "./PostComment";
-import reportUserIcon from '../img/reportUser.png'
+
 
 const Detail= ()=>{
 
     const user= useSelector(state=> state.setUser.user)
+    const navigate= useNavigate()
+    const inputRef= useRef()
     const location = useLocation()
     const post = location.state.post
 
     const [postD,setPostD]= useState(post)
-    const navigate= useNavigate()
     const [visible, setVisible]= useState(false)
     const [contentD,setContentD]= useState('')
     const [imgD,setimgD]= useState('')
-
-    const inputRef= useRef()
     const [addCm,setAddCm] = useState(false)
     const [comments,setComments]= useState(null)
     let [comment,setComment] =useState('')
-
 
     // user = 현재 로그인 된 유저 아이디
     // postUser = 현재 선택된 게시물 작성자 아이디
@@ -33,7 +31,10 @@ const Detail= ()=>{
     const postUser= post.uid
     const postNo = post.no
 
-
+    const sendComment= (m)=>{
+        //javascriptInterface로 등록할 때 지정한 별칭("Droid")객체가 웹뷰의 window 최상위객체의 멤버로 등록됨
+        window.Droid.loadComment(m)
+    }
 
     const goList= ()=>{
         navigate(-1)
@@ -42,14 +43,13 @@ const Detail= ()=>{
     const addComment= (event)=>{
         // 댓글 등록 함수
         event.preventDefault()
-        // comment= inputRef.current.value
         const commentValue = inputRef.current.value;
-        // alert(comment)
-        //comment에 인풋 값 들어있음
+        
 
         if(commentValue){
+            sendComment(commentValue)
+            
             const url = "http://myhero.dothome.co.kr/levelUpLife/board/CommentAdd.php"
-
             const data = new FormData()
             data.append("boardNo", postNo)
             data.append("uid", user.uid)
@@ -73,47 +73,42 @@ const Detail= ()=>{
             })
             .catch(e => alert(e.message))
 
-        }else alert('내용을 입력해주세요')
-
-        
+        }else alert('내용을 입력해주세요')      
     }
+
 
     const goEdit= ()=>{
         setVisible(true)
         //게시글 수정 함수
     }
 
-    const goDelete= ()=>{
+    window.postDelete= ()=>{
         //게시글 삭제 함수
+        const url = "http://myhero.dothome.co.kr/levelUpLife/board/boardDelete.php"
 
-        const answer = window.confirm("게시물을 삭제합니다")
+        const data = new FormData()
+        data.append("uid", postUser)
+        data.append("no", postNo)
         
-        if(answer){
-            const url = "http://myhero.dothome.co.kr/levelUpLife/board/boardDelete.php"
+        fetch(url, {
+            method: "POST",
+            body: data
+        })
+        .then(res => res.text())
+        .then(text => {
+        alert(text)
+        navigate('/')
+        })
+        .catch(e => alert(e.message))
+    }
 
-            const data = new FormData()
-            data.append("uid", postUser)
-            data.append("no", postNo)
-        
-
-            fetch(url, {
-                method: "POST",
-                body: data
-            }).then(res => res.text())
-            .then(text => {
-                alert(text)
-                navigate('/')
-            })
-            .catch(e => alert(e.message))
-
-        }else {}
+    window.postReportUser= ()=>{
+        alert('신고되었습니다')
     }
 
     const commentList= ()=>{
-
         const data = new FormData()
         data.append("boardNo", postNo)
-
         const url = "http://myhero.dothome.co.kr/levelUpLife/board/CommentList.php"
 
         fetch(url,{
@@ -127,9 +122,6 @@ const Detail= ()=>{
         .catch(e=>alert('에러:'+e.message))
     }
 
-    const reportUser= ()=>{
-        alert('신고되었습니다')
-    }
 
     useEffect(()=>{
         console.log('디테일그려')
@@ -138,51 +130,41 @@ const Detail= ()=>{
         window.scrollTo(0, 0);
     },[contentD])
 
-    const setFocus= ()=>{
-    }
 
 
     return (
-        <Container onLoad={setFocus}>
+        <Container>
 
             <div className="contentD">
             <label onClick={goList}><MdOutlineArrowBackIosNew/> 뒤로</label>
 
-                { userId != postUser ? <div className="report" onClick={reportUser}>
+                { userId != postUser ? <div className="report" onClick={()=>{alert('게시물을 신고합니까?')}}>
                     <p style={{color:'red'}}>신고하기</p>
-                    {/* <img src={reportUserIcon} alt="deleteIcon" onClick={reportUser}/> */}
                     </div> :
-                <div className="edit">
-                <p onClick={goEdit}>수정</p>
-                <span>&ensp;/&ensp;</span>
-                <p onClick={goDelete}>삭제</p>
-                </div> 
+                    <div className="edit">
+                    <p onClick={goEdit}>수정</p>
+                    <span>&ensp;/&ensp;</span>
+                    <p onClick={()=>{alert('게시물을 삭제합니다')}}>삭제</p>
+                    </div> 
                  }
 
                 <Post postD={postD} commentL={comments? comments.length : null} contentD={contentD} imgD={imgD}/>
 
                 <div className="aiText">
-                    {/* <h4>AI 모니터링 봇 사용중</h4> */}
                     <h5>원활한 커뮤니티 활성화를 위해 <span style={{color:'red'}}>텍스트를 검증</span>하고 있습니다.<br/> <span style={{color:'red'}}>비방, 음란, 악성 등</span> 커뮤니티에 부합하지 않는 내용은 삭제됩니다.</h5>
                 </div>
 
-            {
-
-                comments && comments.length > 0 ?
-                <div className="commentB" style={{ backgroundColor: 'rgb(237,233,233)' }}>
+                {   comments && comments.length > 0 ?
+                    <div className="commentB" style={{ backgroundColor: 'rgb(237,233,233)' }}>
         
-                {
-                    comments ? comments.map((comment,i)=>{
-                        return <PostComment comment={comment} setComments={setComments} commentList={commentList}key={i}/>
-                    }) 
-                    : <></>
-                }
+                    {   comments ? comments.map((comment,i)=>{
+                            return <PostComment comment={comment} setComments={setComments} commentList={commentList}key={i}/>
+                        }) : <></>
+                    }
 
-                </div>
-
-                : <div className="commentB" style={{ backgroundColor: 'transparent' }}/>
-            } 
-                
+                    </div>  :   <div className="commentB" style={{ backgroundColor: 'transparent' }}/>
+                } 
+            
             </div>
 
             <div className="input">    

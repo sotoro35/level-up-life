@@ -21,7 +21,6 @@ const PostList= (props)=>{
       
     const sortedPosts = [...posts].sort((a, b) => b.no - a.no);
 
-
     return (
         <div>
             {

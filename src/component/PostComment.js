@@ -31,11 +31,10 @@ const PostComment= (props)=>{
     const [nickName, setnickName] = useState(props.comment? comment.nickname : '레벨업라이프')
     const [level, setLevel] = useState(props.comment? comment.level : '0')
     const [content, setContent] = useState(props.comment? comment.content : '레벨업라이프')
-
     console.log(props.comment)
-    //alert(props.comment.nickname)
 
     const setProfileImg = (profileNo) =>{
+        //프로필 이미지 설정 
         switch(profileNo){
             case '1' : 
             setProfile(profile01)
@@ -89,34 +88,31 @@ const PostComment= (props)=>{
         }
     }
 
-    const deleteComment= ()=>{
-       //alert("댓글을 삭제합니다")
-        const answer = window.confirm("댓글을 삭제합니다")
+    window.deleteComment= ()=>{
+       //댓글 삭제 함수    
+        const url = "http://myhero.dothome.co.kr/levelUpLife/board/CommentDelete.php"
+
+        const data = new FormData()
+        data.append("uid", comment.uid)
+        data.append("no", comment.no)
         
-        if(answer){
-            const url = "http://myhero.dothome.co.kr/levelUpLife/board/CommentDelete.php"
-
-            const data = new FormData()
-            data.append("uid", comment.uid)
-            data.append("no", comment.no)
-        
-
-            fetch(url, {
-                method: "POST",
-                body: data
-            }).then(res => res.text())
-            .then(text => {
-                alert(text)
-                props.setComments(null)
-                props.commentList()
-            })
-            .catch(e => alert(e.message))
-
-        }else {}
+        fetch(url, {
+            method: "POST",
+            body: data
+        })
+        .then(res => res.text())
+        .then(text => {
+            alert(text)
+            props.setComments(null)
+            props.commentList()
+        })
+        .catch(e => alert(e.message))
     }
+    
+    
 
-    const reportUser= ()=>{
-        alert('신고되었습니다')
+    window.commentReportUser= ()=>{
+        alert('너신고')
     }
 
     useEffect(()=>{
@@ -139,13 +135,10 @@ const PostComment= (props)=>{
                             <div className="deleteCom">
                                 <h5>{nickName}</h5>
 
-                                {userId === commentId ? (
-                                    <img src={deleteIcon} alt="deleteIcon" onClick={deleteComment} />
+                                {   userId === commentId ? (
+                                    <img src={deleteIcon} alt="deleteIcon" onClick={()=>{alert('댓글을 삭제합니다')}} />
                                 ) : (
-                                    // <div className="report">
-                                    //     <p style={{ color: 'red' }}>너 신고</p>
-                                    // </div>
-                                    <img className='reportUserIcon' src={reportIcon} alt="deleteIcon" onClick={reportUser}/>
+                                    <img className='reportUserIcon' src={reportIcon} alt="deleteIcon" onClick={()=>{alert('댓글을 신고합니까?')}}/>
                                 )}
                             </div>
                             
@@ -214,11 +207,6 @@ const CommentD= styled.div`
                 display: inline-block;
                 right: 10px;
             }
-
-            /* .reportUserIcon{
-                width: 50px;
-                height: 10px;
-            } */
         }
     }
 

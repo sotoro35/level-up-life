@@ -18,7 +18,7 @@ const Communication= ()=>{
     const user= useSelector(state=> state.setUser.user)
 
     const listCom= ()=>{
-
+      //댓글 리스트 불러오기
       const url = "http://myhero.dothome.co.kr/levelUpLife/board/boardComment.php"
 
       // fetch(url,{
@@ -50,7 +50,6 @@ const Communication= ()=>{
     },[load])
 
     
-
     
     return (
   
